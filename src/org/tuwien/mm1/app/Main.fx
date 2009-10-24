@@ -29,6 +29,8 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
 import javafx.scene.control.Slider;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 /**
  * @author camillo
@@ -47,6 +49,7 @@ var stage:Stage = Stage{
     scene: Scene {
         content: [
         HBox{
+            spacing: 15
             content:[
             VBox{
             width: 640
@@ -54,7 +57,12 @@ var stage:Stage = Stage{
             content:[
             HBox{
                 layoutInfo: LayoutInfo { height: 480 }
-                content:
+                content:[
+                Rectangle {
+                    x: 0, y: 0
+                    width: 640, height: 480
+                    fill: Color.BLACK
+                }
                 MediaView {
                     layoutInfo: LayoutInfo { width: 640 }
                     preserveRatio: true
@@ -62,6 +70,7 @@ var stage:Stage = Stage{
                         media: Media{ source: ""}
                     }
                 }
+                ]
             }
             HBox{
                 layoutInfo: LayoutInfo { width: 640}
