@@ -56,16 +56,17 @@ var stage:Stage = Stage{
                 content: [
                 Button{
                     graphic: ImageView {
-                        image: Image {url: "file:///home/camillo/NetBeansProjects/mm1/src/org/tuwien/mm1/data/play3.png"}
+                        image: Image {url: "{__DIR__}data/play3.png"}
+                        
                     }
-                    //text:"Play"
+                    //text: "{__DIR__}../data/play3.png"
                     onMouseClicked: function( e: MouseEvent ):Void {
                         System.out.println("Play has been clicked");
                 }
                 }
                 Button{
                     graphic: ImageView {
-                        image: Image {url: "file:///home/camillo/NetBeansProjects/mm1/src/org/tuwien/mm1/data/pause.png"}
+                        image: Image {url: "{__DIR__}data/pause.png"}
                     }
                     //text:"Pause"
                     onMouseClicked: function( e: MouseEvent ):Void {
@@ -74,7 +75,7 @@ var stage:Stage = Stage{
                 }
                 Button{
                     graphic: ImageView {
-                        image: Image {url: "file:///home/camillo/NetBeansProjects/mm1/src/org/tuwien/mm1/data/stop.png"}
+                        image: Image {url: "{__DIR__}data/stop.png"}
                     }
                     //text:"Stop"
                     onMouseClicked: function( e: MouseEvent ):Void {
