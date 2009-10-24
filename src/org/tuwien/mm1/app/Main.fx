@@ -28,10 +28,16 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
+import javafx.scene.control.Slider;
+
 /**
  * @author camillo
  */
  def group = ToggleGroup{};
+
+ var slider:Slider = Slider {
+
+}
 
 
 var stage:Stage = Stage{
@@ -123,13 +129,17 @@ var stage:Stage = Stage{
                 }
                 RadioButton {
                     toggleGroup: group
+                    selected: true
                     text: "Uniform"
                 }
                 RadioButton {
                     toggleGroup: group
                     text: "Poisson"
                 }
-                
+                slider,
+                Label{
+                    text: bind slider.value.toString()
+                }
 
                 ]
 
