@@ -21,6 +21,8 @@ import javafx.geometry.HPos;
 
 import org.tuwien.mm1.controls.MyMediaPlayer;
 import org.tuwien.mm1.controls.VolumeControl;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 
 
 /**
@@ -53,19 +55,28 @@ var stage:Stage = Stage{
                 hpos: HPos.CENTER // column will be centered within vbox width
                 content: [
                 Button{
-                    text:"Play"
+                    graphic: ImageView {
+                        image: Image {url: "file:///home/camillo/NetBeansProjects/mm1/src/org/tuwien/mm1/data/play3.png"}
+                    }
+                    //text:"Play"
                     onMouseClicked: function( e: MouseEvent ):Void {
                         System.out.println("Play has been clicked");
                 }
                 }
                 Button{
-                    text:"Pause"
+                    graphic: ImageView {
+                        image: Image {url: "file:///home/camillo/NetBeansProjects/mm1/src/org/tuwien/mm1/data/pause.png"}
+                    }
+                    //text:"Pause"
                     onMouseClicked: function( e: MouseEvent ):Void {
                         System.out.println("Pause has been clicked");
                     }
                 }
                 Button{
-                    text:"Stop"
+                    graphic: ImageView {
+                        image: Image {url: "file:///home/camillo/NetBeansProjects/mm1/src/org/tuwien/mm1/data/stop.png"}
+                    }
+                    //text:"Stop"
                     onMouseClicked: function( e: MouseEvent ):Void {
                         System.out.println("Stop has been clicked");
                     }
