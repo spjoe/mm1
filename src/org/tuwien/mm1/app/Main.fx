@@ -23,19 +23,27 @@ import org.tuwien.mm1.controls.MyMediaPlayer;
 import org.tuwien.mm1.controls.VolumeControl;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 
 /**
  * @author camillo
  */
+ def group = ToggleGroup{};
+
 
 var stage:Stage = Stage{
     title: "Our peewee MediaPlayer"
-    width: 640
+    width: 640 + 200
     height: 540
     scene: Scene {
         content: [
-        VBox{
+        HBox{
+            content:[
+            VBox{
+            width: 640
             spacing: 0
             content:[
             HBox{
@@ -57,7 +65,7 @@ var stage:Stage = Stage{
                 Button{
                     graphic: ImageView {
                         image: Image {url: "{__DIR__}data/play3.png"}
-                        
+
                     }
                     //text: "{__DIR__}../data/play3.png"
                     onMouseClicked: function( e: MouseEvent ):Void {
@@ -97,6 +105,41 @@ var stage:Stage = Stage{
             }
             ]
         }
+            VBox{
+                width: 200
+                spacing: 15
+                content:[
+                Label{
+                    font: Font {
+                        name: "Serif"
+                        size: 20
+                      }
+                    text: "Effekt Config" 
+                }
+
+                RadioButton {
+                    toggleGroup: group
+                    text: "Gauß"
+                }
+                RadioButton {
+                    toggleGroup: group
+                    text: "Uniform"
+                }
+                RadioButton {
+                    toggleGroup: group
+                    text: "Poisson"
+                }
+                
+
+                ]
+
+            }
+            ]
+        }
+
+        
         ]
+
+
     }
 }
