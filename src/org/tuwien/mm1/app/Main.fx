@@ -9,7 +9,6 @@ package org.tuwien.mm1.app;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -19,6 +18,7 @@ import java.lang.*;
 import javafx.scene.input.MouseEvent;
 import javafx.geometry.HPos;
 
+
 import org.tuwien.mm1.controls.MyMediaPlayer;
 import org.tuwien.mm1.controls.VolumeControl;
 
@@ -27,7 +27,7 @@ import org.tuwien.mm1.controls.VolumeControl;
  * @author camillo
  */
 
-Stage {
+var stage:Stage = Stage{
     title: "Our peewee MediaPlayer"
     width: 640
     height: 540
@@ -73,6 +73,12 @@ Stage {
                 VolumeControl{
                     onMouseClicked: function( e: MouseEvent ):Void {
                         System.out.println("VolumeControl has been clicked");
+                    }
+                }
+                Button{
+                    text:"Close"
+                    onMouseClicked: function( e: MouseEvent ):Void {
+                        stage.close();
                     }
                 }
                 ]
