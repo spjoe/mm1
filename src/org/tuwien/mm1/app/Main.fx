@@ -20,9 +20,9 @@ import javafx.geometry.HPos;
 
 
 import org.tuwien.mm1.controls.MyMediaPlayer;
+import org.tuwien.mm1.controls.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
@@ -33,13 +33,14 @@ import javafx.scene.paint.Color;
 /**
  * @author camillo
  */
- def group = ToggleGroup{};
-
-var currentMediaFile:String = "";
-var MediaFileLable:Label = Label {
+var currentMediaFile:String = "/path/to/example.mov";
+var mediaFileLabel:Label = Label {
         text: bind currentMediaFile
+}
 
-
+var beginnLabel:Label = Label{
+    text: "Beginn:"
+}
 var beginnSlider:Slider = Slider{
 
 }
@@ -47,29 +48,67 @@ var beginnSliderLabel:Label = Label {
     text: bind beginnSlider.value.toString();
 }
 
+var dauerLabel:Label = Label{
+    text: "Dauer:"
+}
 var dauerSlider:Slider = Slider{
 }
 var dauerSliderLabel:Label = Label {
     text: bind dauerSlider.value.toString();
 }
 
+var intensitätLabel:Label = Label{
+    text: "Intensität:"
+}
 var intensitätSlider:Slider = Slider{
 
+}
+var intensitätSliderLabel:Label = Label {
+    text: bind intensitätSlider.value.toString();
+}
+
+var höheLabel:Label = Label{
+    text: "Höhe:"
 }
 var höheSlider:Slider = Slider{
 
 }
+var höheSliderLabel:Label = Label {
+    text: bind höheSlider.value.toString();
+}
+
+var breiteLabel:Label = Label{
+    text: "Breite:"
+}
 var breiteSlider:Slider = Slider{
 
+}
+var breiteSliderLabel:Label = Label {
+    text: bind breiteSlider.value.toString();
+}
+
+var offsetXLabel:Label = Label{
+    text: "Offset X:"
 }
 var offsetXSlider:Slider = Slider{
 
 }
+var offsetXSliderLabel:Label = Label {
+    text: bind offsetXSlider.value.toString();
+}
+
+var offsetYLabel:Label = Label{
+    text: "Offset Y:"
+}
 var offsetYSlider:Slider = Slider{
 
 }
-var timeSlider:Slider = Slider{
+var offsetYSliderLabel:Label = Label {
+    text: bind offsetYSlider.value.toString();
+}
 
+var timeSlider:Slider = Slider{
+    layoutInfo: LayoutInfo{width: 350}
 }
 var timeLabel:Label =Label {
     text: bind timeSlider.value.toString();
@@ -103,6 +142,13 @@ var stopButton:Button = Button{
         System.out.println("Stop has been clicked");
     }
 }
+var openButton:Button = Button{
+    layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
+    text:"Datei Öffnen"
+    onMouseClicked: function( e: MouseEvent ):Void {
+        System.out.println("Open has been clicked");
+    }
+}
 var mediaView:MediaView = MediaView{
     layoutInfo: LayoutInfo { width: 640 }
     preserveRatio: true
@@ -110,10 +156,20 @@ var mediaView:MediaView = MediaView{
         media: Media{ source: ""}
     }
 }
+var noiseComboBox:ComboBox = ComboBox{
+    items: [
+    "Uniform",
+    "Gauß",
+    "Poisson",
+    "Laplace",
+    "Lorentz"
+    ]
+}
+noiseComboBox.select(0);
 
 var leftSide:VBox = VBox{
     width: 640
-    spacing: 0
+    spacing: 10
     content:[
     HBox{
         layoutInfo: LayoutInfo { height: 480 }
@@ -128,15 +184,20 @@ var leftSide:VBox = VBox{
     }
     HBox{
         layoutInfo: LayoutInfo { width: 640}
-        spacing: 15
+        spacing: 5
         hpos: HPos.LEFT // column will be centered within vbox width
         content: [playButton, pauseButton, stopButton, timeSlider, timeLabel]
+    }
+    HBox{
+        spacing: 15
+        layoutInfo: LayoutInfo { width: 640}
+        content: [mediaFileLabel, openButton]
     }
     ]
 }
 
 var rightSide:VBox = VBox{
-    width: 200
+    width: 350
     spacing: 15
     content:[
     Label{
@@ -147,11 +208,38 @@ var rightSide:VBox = VBox{
         text: "Effekt Config"
     }
     HBox{
-        content:[beginnSlider,beginnSliderLabel]
+        spacing: 10
+        content:[
+        VBox{
+            spacing: 10
+            content:[beginnLabel, dauerLabel, intensitätLabel, höheLabel,
+                breiteLabel, offsetXLabel, offsetYLabel]
+        }
+        VBox{
+            spacing: 10
+            content:[beginnSlider, dauerSlider, intensitätSlider, höheSlider,
+                breiteSlider, offsetXSlider, offsetYSlider]
+        }
+        VBox{
+            spacing: 10  
+            content:[beginnSliderLabel, dauerSliderLabel, intensitätSliderLabel,
+                höheSliderLabel, breiteSliderLabel, offsetXSliderLabel,
+                offsetYSliderLabel]
+        }
+        ]
     }
-    HBox{
-        content:[dauerSlider,beginnSliderLabel]
+    VBox{
+        hpos: HPos.CENTER
+        content:[
+        Label{
+            text: "Art der Verteilung"
+        }
+        noiseComboBox
+        
+
+        ]
     }
+
 
 
     ]
@@ -161,8 +249,8 @@ var rightSide:VBox = VBox{
 
 var stage:Stage = Stage{
     title: "Our peewee MediaPlayer"
-    width: 840
-    height: 540
+    width: 640+350
+    height: 620
     scene: Scene {
         content: 
         HBox{
