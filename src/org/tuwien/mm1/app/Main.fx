@@ -30,10 +30,12 @@ import javafx.scene.control.Slider;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
+import javax.swing.JFileChooser;
+
 /**
  * @author camillo
  */
-var currentMediaFile:String = "/path/to/example.mov";
+var currentMediaFile:String = "/home/camillo/Download/rapidshare/sori_HL611.avi";
 var mediaFileLabel:Label = Label {
         text: bind currentMediaFile
 }
@@ -110,8 +112,15 @@ var offsetYSliderLabel:Label = Label {
 var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
 }
+//var sec:Number = bind mediaView.mediaPlayer.media.duration.toSeconds();
+var sec:Integer = 10000;
 var timeLabel:Label =Label {
-    text: bind timeSlider.value.toString();
+    var currentsec:Integer  = bind sec * timeSlider.value/100;
+    var hour:Integer = bind  currentsec/3600;
+    var min:Integer  = bind (currentsec-hour*3600)/60;
+    var sec2:Integer = bind (currentsec-hour*3600-min*60);
+    var shour:String = bind "{hour.toString()}:{min.toString()}:{sec2.toString()}";
+    text:bind shour
 }
 
 
@@ -122,6 +131,7 @@ var playButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Play has been clicked");
+        mediaView.mediaPlayer.play();
     }
 }
 var pauseButton:Button = Button{
@@ -131,6 +141,7 @@ var pauseButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Pause has been clicked");
+        mediaView.mediaPlayer.pause();
     }
 }
 var stopButton:Button = Button{
@@ -140,20 +151,26 @@ var stopButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Stop has been clicked");
+        mediaView.mediaPlayer.stop();
     }
 }
+var chooser: JFileChooser = new JFileChooser();
 var openButton:Button = Button{
     layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
     text:"Datei Öffnen"
-    onMouseClicked: function( e: MouseEvent ):Void {
-        System.out.println("Open has been clicked");
+    
+    action: function() {
+        if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
+            var file = chooser.getSelectedFile();
+            currentMediaFile = file.toURI().toString();
+        }
     }
 }
 var mediaView:MediaView = MediaView{
     layoutInfo: LayoutInfo { width: 640 }
     preserveRatio: true
     mediaPlayer: MyMediaPlayer {
-        media: Media{ source: ""}
+        media: Media{ source: bind currentMediaFile}
     }
 }
 var noiseComboBox:ComboBox = ComboBox{
