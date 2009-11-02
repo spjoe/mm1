@@ -35,7 +35,12 @@ import javax.swing.JFileChooser;
 /**
  * @author camillo
  */
-var currentMediaFile:String = "/home/camillo/Download/rapidshare/sori_HL611.avi";
+ //var sec:Number = bind mediaView.mediaPlayer.media.duration.toSeconds();
+var sec:Integer = 10000;
+var videoHöhe:Integer = 640;
+var videoBreite:Integer = 480;
+
+var currentMediaFile:String = "file:/home/camillo/Download/rapidshare/sori_HL611.avi";
 var mediaFileLabel:Label = Label {
         text: bind currentMediaFile
 }
@@ -47,7 +52,12 @@ var beginnSlider:Slider = Slider{
 
 }
 var beginnSliderLabel:Label = Label {
-    text: bind beginnSlider.value.toString();
+    var currentsec:Integer  = bind sec * beginnSlider.value/100;
+    var hour:Integer = bind  currentsec/3600;
+    var min:Integer  = bind (currentsec-hour*3600)/60;
+    var sec2:Integer = bind (currentsec-hour*3600-min*60);
+    var shour:String = bind "{hour}:{min}:{sec2}";
+    text: bind shour
 }
 
 var dauerLabel:Label = Label{
@@ -56,7 +66,12 @@ var dauerLabel:Label = Label{
 var dauerSlider:Slider = Slider{
 }
 var dauerSliderLabel:Label = Label {
-    text: bind dauerSlider.value.toString();
+    var currentsec:Integer  = bind sec * dauerSlider.value/100;
+    var hour:Integer = bind  currentsec/3600;
+    var min:Integer  = bind (currentsec-hour*3600)/60;
+    var sec2:Integer = bind (currentsec-hour*3600-min*60);
+    var shour:String = bind "{hour}:{min}:{sec2}";
+    text: bind shour
 }
 
 var intensitätLabel:Label = Label{
@@ -66,60 +81,71 @@ var intensitätSlider:Slider = Slider{
 
 }
 var intensitätSliderLabel:Label = Label {
-    text: bind intensitätSlider.value.toString();
+    var out:Integer = bind intensitätSlider.value;
+    text: bind "{out}%";
 }
 
 var höheLabel:Label = Label{
     text: "Höhe:"
 }
 var höheSlider:Slider = Slider{
+    min: 0
+    max: bind videoHöhe
+    snapToTicks: false
 
 }
 var höheSliderLabel:Label = Label {
-    text: bind höheSlider.value.toString();
+    var out:Integer = bind höheSlider.value;
+    text: bind "{out} px";
 }
 
 var breiteLabel:Label = Label{
     text: "Breite:"
 }
 var breiteSlider:Slider = Slider{
-
+    min: 0
+    max: videoBreite
 }
 var breiteSliderLabel:Label = Label {
-    text: bind breiteSlider.value.toString();
+    var out:Integer = bind breiteSlider.value;
+    text: bind "{out} px";
 }
 
 var offsetXLabel:Label = Label{
     text: "Offset X:"
 }
 var offsetXSlider:Slider = Slider{
+    min: 0
+    max: videoBreite
 
 }
 var offsetXSliderLabel:Label = Label {
-    text: bind offsetXSlider.value.toString();
+    var out:Integer = bind offsetXSlider.value;
+    text: bind "{out} px";
 }
 
 var offsetYLabel:Label = Label{
     text: "Offset Y:"
 }
 var offsetYSlider:Slider = Slider{
-
+    min: 0
+    max: videoHöhe
 }
 var offsetYSliderLabel:Label = Label {
-    text: bind offsetYSlider.value.toString();
+    var out:Integer = bind offsetYSlider.value;
+    text: bind "{out} px";
 }
 
 var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
 }
-//var sec:Number = bind mediaView.mediaPlayer.media.duration.toSeconds();
-var sec:Integer = 10000;
+
 var timeLabel:Label =Label {
     var currentsec:Integer  = bind sec * timeSlider.value/100;
     var hour:Integer = bind  currentsec/3600;
     var min:Integer  = bind (currentsec-hour*3600)/60;
     var sec2:Integer = bind (currentsec-hour*3600-min*60);
-    var shour:String = bind "{hour.toString()}:{min.toString()}:{sec2.toString()}";
+    var shour:String = bind "{hour}:{min}:{sec2}";
     text:bind shour
 }
 
@@ -230,18 +256,18 @@ var rightSide:VBox = VBox{
         VBox{
             spacing: 10
             content:[beginnLabel, dauerLabel, intensitätLabel, höheLabel,
-                breiteLabel, offsetXLabel, offsetYLabel]
+                breiteLabel, offsetYLabel, offsetXLabel]
         }
         VBox{
             spacing: 10
             content:[beginnSlider, dauerSlider, intensitätSlider, höheSlider,
-                breiteSlider, offsetXSlider, offsetYSlider]
+                breiteSlider, offsetYSlider, offsetXSlider]
         }
         VBox{
             spacing: 10  
             content:[beginnSliderLabel, dauerSliderLabel, intensitätSliderLabel,
-                höheSliderLabel, breiteSliderLabel, offsetXSliderLabel,
-                offsetYSliderLabel]
+                höheSliderLabel, breiteSliderLabel, offsetYSliderLabel,
+                offsetXSliderLabel]
         }
         ]
     }
@@ -252,15 +278,9 @@ var rightSide:VBox = VBox{
             text: "Art der Verteilung"
         }
         noiseComboBox
-        
-
         ]
     }
-
-
-
     ]
-
 }
 
 
