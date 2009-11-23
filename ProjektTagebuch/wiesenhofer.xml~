@@ -1,0 +1,33 @@
+<Diary xsi:noNamespaceSchemaLocation="http://www.ims.tuwien.ac.at/~maia/xml/diary.xsd" course="lumm1" term="ws09">
+<ProjectName>VideoFilter: Noise</ProjectName>
+<GroupID>C20</GroupID>
+−
+<Student>
+<FirstName>Andreas</FirstName>
+<LastName>Wiesenhofer</LastName>
+<eMail>awiesi@mail.com</eMail>
+<MNR>0725948</MNR>
+<SKZ>033532</SKZ>
+</Student>
+−
+<Entries>
+−
+<Entry>
+<Date>2009-10-16</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>Meeting im Cafe Steiner, Erste Team-Besprechung und Thema-Auswahl</Subject>
+</Entry>
+−
+<Entry>
+<Date>2009-10-22</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>Parameter-Bestimmung und GUI Entwurf, skizze, Über e-mail auf design Abgestimmt.</Subject>
+</Entry>
+<Entry>
+<Date>2009-10-23</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>Aufgabenbeschreibung erstellt</Subject>
+</Entry>
+
+</Entries>
+</Diary>

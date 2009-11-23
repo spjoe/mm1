@@ -1,0 +1,41 @@
+<Diary xsi:noNamespaceSchemaLocation="http://www.ims.tuwien.ac.at/~maia/xml/diary.xsd" course="lumm1" term="ws09">
+<ProjectName>VideoFilter: Noise</ProjectName>
+<GroupID>C20</GroupID>
+−
+<Student>
+<FirstName>Camillo</FirstName>
+<LastName>Dell'mour</LastName>
+<eMail>cdellmour@mail.com</eMail>
+<MNR>0628020</MNR>
+<SKZ>033534</SKZ>
+</Student>
+−
+<Entries>
+−
+<Entry>
+<Date>2009-10-16</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>Meeting im Cafe Steiner, Erste Team-Besprechung und Thema-Auswahl</Subject>
+</Entry>
+−
+<Entry>
+<Date>2009-10-22</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>Parameter-Bestimmung und GUI Entwurf, skizze, Über e-mail auf design Abgestimmt.</Subject>
+</Entry>
+
+<Entry>
+<Date>2009-11-03</Date>
+<Duration timeUnit="h">5</Duration>
+<Subject>JavaFx, JMF einlesen.</Subject>
+</Entry>
+
+<Entry>
+<Date>2009-11-04</Date>
+<Duration timeUnit="h">5</Duration>
+<Subject>GUI-entwurf in JavaFx code gegossen.</Subject>
+</Entry>
+
+
+</Entries>
+</Diary>
