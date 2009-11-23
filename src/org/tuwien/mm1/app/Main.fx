@@ -17,6 +17,10 @@ import javafx.scene.layout.LayoutInfo;
 import java.lang.*;
 import java.util.Properties;
 import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.net.URL;
 import javafx.scene.input.MouseEvent;
 import javafx.geometry.HPos;
 
@@ -185,12 +189,37 @@ var chooser: JFileChooser = new JFileChooser();
 var openButton:Button = Button{
     layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
     hpos: HPos.RIGHT
-    text:"Datei Öffnen"
+    text:"Öffnen"
     
     action: function() {
         if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
             var file = chooser.getSelectedFile();
             currentMediaFile = file.toURI().toString();
+        }
+    }
+}
+var saveButton:Button = Button{
+    layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
+    hpos: HPos.RIGHT
+    text:"Speichern"
+
+    action: function() {
+        if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
+            var file = chooser.getSelectedFile();
+            var url = new URL(currentMediaFile);
+
+            
+            var in = url.openStream();
+            var out = new FileWriter(file);
+            
+            var c:Integer;
+
+            while ((c = in.read()) != -1)
+              out.write(c);
+
+            in.close();
+            out.close();
+
         }
     }
 }
@@ -235,7 +264,7 @@ var leftSide:VBox = VBox{
     HBox{
         spacing: 15
         layoutInfo: LayoutInfo { width: 640}
-        content: [mediaFileLabel, openButton]
+        content: [mediaFileLabel, openButton,saveButton]
     }
     ]
 }
