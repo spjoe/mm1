@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.LayoutInfo;
 import java.lang.*;
+import java.util.Properties;
+import java.io.FileOutputStream;
 import javafx.scene.input.MouseEvent;
 import javafx.geometry.HPos;
 
@@ -39,8 +41,7 @@ import javax.swing.JFileChooser;
 var sec:Integer = 10000;
 var videoHöhe:Integer = 640;
 var videoBreite:Integer = 480;
-
-var currentMediaFile:String = "file:/home/camillo/Download/rapidshare/sori_HL611.avi";
+var currentMediaFile:String = "http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
 var mediaFileLabel:Label = Label {
         text: bind currentMediaFile
 }
@@ -183,6 +184,7 @@ var stopButton:Button = Button{
 var chooser: JFileChooser = new JFileChooser();
 var openButton:Button = Button{
     layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
+    hpos: HPos.RIGHT
     text:"Datei Öffnen"
     
     action: function() {
@@ -208,7 +210,6 @@ var noiseComboBox:ComboBox = ComboBox{
     "Lorentz"
     ]
 }
-noiseComboBox.select(0);
 
 var leftSide:VBox = VBox{
     width: 640
@@ -242,6 +243,8 @@ var leftSide:VBox = VBox{
 var rightSide:VBox = VBox{
     width: 350
     spacing: 15
+    nodeHPos: HPos.CENTER
+    hpos: HPos.CENTER
     content:[
     Label{
         font: Font {
@@ -271,8 +274,9 @@ var rightSide:VBox = VBox{
         }
         ]
     }
+
     VBox{
-        hpos: HPos.CENTER
+        nodeHPos: HPos.CENTER
         content:[
         Label{
             text: "Art der Verteilung"
@@ -291,9 +295,71 @@ var stage:Stage = Stage{
     scene: Scene {
         content: 
         HBox{
+            layoutX: 3
+            layoutY: 5
             spacing: 15
             content:[leftSide,rightSide]
         }
     }
+     onClose: function(){
+            var propFile = ClassLoader.getSystemResource("mplayer.properties");
+            println("Properties file:  {propFile}\nContent:");
+            var prop = new Properties();
+            prop.load(propFile.openStream());
+            prop.setProperty("currentMediaFile", currentMediaFile);
+            prop.setProperty("beginnSlider", beginnSlider.value.toString());
+            prop.setProperty("dauerSlider", dauerSlider.value.toString());
+            prop.setProperty("intensitätSlider", intensitätSlider.value.toString());
+            prop.setProperty("höheSlider", höheSlider.value.toString());
+            prop.setProperty("breiteSlider", breiteSlider.value.toString());
+            prop.setProperty("offsetXSlider", offsetXSlider.value.toString());
+            prop.setProperty("offsetYSlider", offsetYSlider.value.toString());
+            prop.setProperty("noise", noiseComboBox.selectedItem.toString());
+
+            var outStream = new FileOutputStream(propFile.getFile());
+            prop.store(outStream, "bla");
+        }
 }
 
+function run(args : String[]) {
+     // Convert Strings to Integers
+    
+
+     noiseComboBox.select(0);
+
+    var propFile = ClassLoader.getSystemResource("mplayer.properties");
+    println("Properties file:  {propFile}\nContent:");
+    var prop = new Properties();
+    prop.load(propFile.openStream());
+    if(prop.containsKey("currentMediaFile"))
+        currentMediaFile = prop.getProperty("currentMediaFile");
+    if(prop.containsKey("beginnSlider"))
+        beginnSlider.value = Double.parseDouble(prop.getProperty("beginnSlider"));
+    if(prop.containsKey("dauerSlider"))
+        dauerSlider.value = Double.parseDouble(prop.getProperty("dauerSlider"));
+    if(prop.containsKey("intensitätSlider"))
+        intensitätSlider.value = Double.parseDouble(prop.getProperty("intensitätSlider"));
+    if(prop.containsKey("höheSlider"))
+        höheSlider.value = Double.parseDouble(prop.getProperty("höheSlider"));
+    if(prop.containsKey("breiteSlider"))
+        breiteSlider.value = Double.parseDouble(prop.getProperty("breiteSlider"));
+    if(prop.containsKey("offsetXSlider"))
+        offsetXSlider.value = Double.parseDouble(prop.getProperty("offsetXSlider"));
+    if(prop.containsKey("offsetYSlider"))
+        offsetYSlider.value = Double.parseDouble(prop.getProperty("offsetYSlider"));
+    if(prop.containsKey("noise")){
+        var tmp = prop.getProperty("noise");
+        if(tmp.equals("Gauß"))
+            noiseComboBox.select(1);
+        if(tmp.equals("Poisson"))
+            noiseComboBox.select(2);
+        if(tmp.equals("Laplace"))
+            noiseComboBox.select(3);
+        if(tmp.equals("Lorentz"))
+            noiseComboBox.select(4);
+    }
+
+     def mediaurl = args[0];
+     if(mediaurl != null)
+        currentMediaFile = mediaurl;
+}
