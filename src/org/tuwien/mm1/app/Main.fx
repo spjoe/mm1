@@ -1,6 +1,6 @@
 /*
  * Main.fx
- *
+ * @author: camillo
  * Created on 24.10.2009, 14:16:17
  */
 
@@ -17,8 +17,6 @@ import javafx.scene.layout.LayoutInfo;
 import java.lang.*;
 import java.util.Properties;
 import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.net.URL;
 import javafx.scene.input.MouseEvent;
@@ -38,24 +36,33 @@ import javafx.scene.paint.Color;
 
 import javax.swing.JFileChooser;
 
-/**
- * @author camillo
- */
  //var sec:Number = bind mediaView.mediaPlayer.media.duration.toSeconds();
 var sec:Integer = 10000;
 var videoHöhe:Integer = 640;
 var videoBreite:Integer = 480;
 var currentMediaFile:String = "http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
+/**
+    Label, welches den Pfad der gerade vorgeführten Datei anzeigt
+*/
 var mediaFileLabel:Label = Label {
         text: bind currentMediaFile
 }
 
+/**
+    Bezeichnung für den beginn Schieber
+*/
 var beginnLabel:Label = Label{
     text: "Beginn:"
 }
+/**
+    Der Schieber für die Beginnzeit des Filters
+*/
 var beginnSlider:Slider = Slider{
 
 }
+/**
+    Der Wert des Schieber für die Beginnzeit des Filters
+*/
 var beginnSliderLabel:Label = Label {
     var currentsec:Integer  = bind sec * beginnSlider.value/100;
     var hour:Integer = bind  currentsec/3600;
@@ -65,11 +72,20 @@ var beginnSliderLabel:Label = Label {
     text: bind shour
 }
 
+/**
+    Bezeichnung für den dauer Schieber
+*/
 var dauerLabel:Label = Label{
     text: "Dauer:"
 }
+/**
+    Der Schieber für die Dauer des Filters
+*/
 var dauerSlider:Slider = Slider{
 }
+/**
+    Der Wert des Schieber für die Dauer des Filters
+*/
 var dauerSliderLabel:Label = Label {
     var currentsec:Integer  = bind sec * dauerSlider.value/100;
     var hour:Integer = bind  currentsec/3600;
@@ -78,73 +94,122 @@ var dauerSliderLabel:Label = Label {
     var shour:String = bind "{hour}:{min}:{sec2}";
     text: bind shour
 }
-
+/**
+    Bezeichnung für den intensität Schieber
+*/
 var intensitätLabel:Label = Label{
     text: "Intensität:"
 }
+/**
+    Der Schieber für die Intensität des Filters
+*/
 var intensitätSlider:Slider = Slider{
 
 }
+/**
+    Der Wert des Schieber für die Intensität des Filters
+*/
 var intensitätSliderLabel:Label = Label {
     var out:Integer = bind intensitätSlider.value;
     text: bind "{out}%";
 }
 
+/**
+    Bezeichnung für den höhe Schieber
+*/
 var höheLabel:Label = Label{
     text: "Höhe:"
 }
+/**
+    Der Schieber für die Höhe des Filters
+*/
 var höheSlider:Slider = Slider{
     min: 0
     max: bind videoHöhe
     snapToTicks: false
 
 }
+/**
+    Der Wert des Schieber für die Höhe des Filters
+*/
 var höheSliderLabel:Label = Label {
     var out:Integer = bind höheSlider.value;
     text: bind "{out} px";
 }
 
+/**
+    Bezeichnung für den breite Schieber
+*/
 var breiteLabel:Label = Label{
     text: "Breite:"
 }
+/**
+    Der Schieber für die Breite des Filters
+*/
 var breiteSlider:Slider = Slider{
     min: 0
     max: videoBreite
 }
+/**
+    Der Wert des Schieber für die Breite des Filters
+*/
 var breiteSliderLabel:Label = Label {
     var out:Integer = bind breiteSlider.value;
     text: bind "{out} px";
 }
 
+/**
+    Bezeichnung für den Seitenabstand Schieber
+*/
 var offsetXLabel:Label = Label{
     text: "Offset X:"
 }
+/**
+    Der Schieber für den Seitenabstand des Filters
+*/
 var offsetXSlider:Slider = Slider{
     min: 0
     max: videoBreite
 
 }
+/**
+    Der Wert des Schieber für die Seitenabstand des Filters
+*/
 var offsetXSliderLabel:Label = Label {
     var out:Integer = bind offsetXSlider.value;
     text: bind "{out} px";
 }
 
+/**
+    Bezeichnung für den Bodenabstand Schieber
+*/
 var offsetYLabel:Label = Label{
     text: "Offset Y:"
 }
+/**
+    Der Schieber für die Bodenabstand des Filters
+*/
 var offsetYSlider:Slider = Slider{
     min: 0
     max: videoHöhe
 }
+/**
+    Der Wert des Schieber für die Bodenabstands des Filters
+*/
 var offsetYSliderLabel:Label = Label {
     var out:Integer = bind offsetYSlider.value;
     text: bind "{out} px";
 }
 
+/**
+    Schieber für die vergangene Zeit
+*/
 var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
 }
-
+/**
+    Der Wert des Schieber für die vergangene Zeit
+*/
 var timeLabel:Label =Label {
     var currentsec:Integer  = bind sec * timeSlider.value/100;
     var hour:Integer = bind  currentsec/3600;
@@ -154,7 +219,9 @@ var timeLabel:Label =Label {
     text:bind shour
 }
 
-
+/**
+    Knopf zum starten des Filmes
+*/
 var playButton:Button = Button{
     graphic: ImageView {
         image: Image {url: "{__DIR__}data/play3.png"}
@@ -165,6 +232,9 @@ var playButton:Button = Button{
         mediaView.mediaPlayer.play();
     }
 }
+/**
+    Knopf zum pausieren des Filmes
+*/
 var pauseButton:Button = Button{
     graphic: ImageView {
         image: Image {url: "{__DIR__}data/pause.png"}
@@ -175,6 +245,9 @@ var pauseButton:Button = Button{
         mediaView.mediaPlayer.pause();
     }
 }
+/**
+    Knopf zum stoppen des Filmes
+*/
 var stopButton:Button = Button{
     graphic: ImageView {
         image: Image {url: "{__DIR__}data/stop.png"}
@@ -185,7 +258,13 @@ var stopButton:Button = Button{
         mediaView.mediaPlayer.stop();
     }
 }
+/**
+    Öffnen Dialog
+*/
 var chooser: JFileChooser = new JFileChooser();
+/**
+    Knopf zum öffnen eines Filmes
+*/
 var openButton:Button = Button{
     layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
     hpos: HPos.RIGHT
@@ -198,6 +277,9 @@ var openButton:Button = Button{
         }
     }
 }
+/**
+    Knopf zum speichern des Filmes
+*/
 var saveButton:Button = Button{
     layoutInfo: LayoutInfo { hpos: HPos.RIGHT }
     hpos: HPos.RIGHT
@@ -223,6 +305,9 @@ var saveButton:Button = Button{
         }
     }
 }
+/**
+    Bereich wo der Film angezeigt wird
+*/
 var mediaView:MediaView = MediaView{
     layoutInfo: LayoutInfo { width: 640 }
     preserveRatio: true
@@ -230,6 +315,9 @@ var mediaView:MediaView = MediaView{
         media: Media{ source: bind currentMediaFile}
     }
 }
+/**
+    Auswahl der noise Funktion
+*/
 var noiseComboBox:ComboBox = ComboBox{
     items: [
     "Uniform",
@@ -239,7 +327,12 @@ var noiseComboBox:ComboBox = ComboBox{
     "Lorentz"
     ]
 }
-
+/**
+    Linke Seite der GUI:
+        mediaView,
+        play,pause,stop,open,time
+        curretnfile, open,save buttons
+*/
 var leftSide:VBox = VBox{
     width: 640
     spacing: 10
@@ -268,7 +361,10 @@ var leftSide:VBox = VBox{
     }
     ]
 }
-
+/**
+    Rechte Seite der GUI:
+        Konfguration des Filters
+*/
 var rightSide:VBox = VBox{
     width: 350
     spacing: 15
@@ -316,7 +412,9 @@ var rightSide:VBox = VBox{
     ]
 }
 
-
+/**
+    Behältnis der gesamten Szene
+*/
 var stage:Stage = Stage{
     title: "Our peewee MediaPlayer"
     width: 640+350
@@ -330,6 +428,9 @@ var stage:Stage = Stage{
             content:[leftSide,rightSide]
         }
     }
+    /**
+        Wird beim schließen aufgerufen, setzen der Properties!
+    */
      onClose: function(){
             var propFile = ClassLoader.getSystemResource("mplayer.properties");
             println("Properties file:  {propFile}\nContent:");
@@ -349,7 +450,9 @@ var stage:Stage = Stage{
             prop.store(outStream, "bla");
         }
 }
-
+/**
+ * Einstiegspunkt der Apllikation. Einlesen der Argumente und des properties files
+ */
 function run(args : String[]) {
      // Convert Strings to Integers
     

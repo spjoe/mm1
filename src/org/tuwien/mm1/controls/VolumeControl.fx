@@ -16,6 +16,7 @@ import javafx.scene.paint.*;
 
 /**
  * @author camillo
+ * not in Use!
  */
 
 public class VolumeControl extends CustomNode {
