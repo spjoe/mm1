@@ -36,8 +36,8 @@ import javafx.scene.paint.Color;
 
 import javax.swing.JFileChooser;
 
- //var sec:Number = bind mediaView.mediaPlayer.media.duration.toSeconds();
-var sec:Integer = 10000;
+var sec:Number = bind mediaView.mediaPlayer.media.duration.toSeconds();
+//var sec:Integer = 10000;
 var videoHöhe:Integer = 640;
 var videoBreite:Integer = 480;
 var currentMediaFile:String = "http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
@@ -206,6 +206,7 @@ var offsetYSliderLabel:Label = Label {
 */
 var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
+    value: bind (mediaView.mediaPlayer.currentTime.toSeconds() / mediaView.mediaPlayer.media.duration.toSeconds()) * 100
 }
 /**
     Der Wert des Schieber für die vergangene Zeit
@@ -339,14 +340,7 @@ var leftSide:VBox = VBox{
     content:[
     HBox{
         layoutInfo: LayoutInfo { height: 480 }
-        content:[
-        Rectangle {
-            x: 0, y: 0
-            width: 640, height: 480
-            fill: Color.BLACK
-        }
-        mediaView
-        ]
+        content:[mediaView]
     }
     HBox{
         layoutInfo: LayoutInfo { width: 640}
