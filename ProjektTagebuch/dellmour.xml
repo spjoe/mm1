@@ -36,6 +36,31 @@
 <Subject>GUI-entwurf in JavaFx code gegossen.</Subject>
 </Entry>
 
+<Entry>
+<Date>2009-11-24</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>Properties und save button hinzugefügt</Subject>
+</Entry>
+
+<Entry>
+<Date>2009-11-25</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>JavaFx mit jmc auf 64bit ubuntu9.10 zum laufenbringen</Subject>
+</Entry>
+
+<Entry>
+<Date>2009-11-26</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>JavaFx mit jmc auf 64bit ubuntu9.10 zum laufenbringen</Subject>
+</Entry>
+
+
+<Entry>
+<Date>2009-11-28</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>JavaFx rennt auf vm ubuntu9.04 32bit, videos testen</Subject>
+</Entry>
+
 
 </Entries>
 </Diary>
