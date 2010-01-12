@@ -8,8 +8,6 @@ package org.tuwien.mm1.app;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaView;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -31,16 +29,15 @@ import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
 import javafx.scene.control.Slider;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
 
 import javax.swing.JFileChooser;
 
-var sec:Number = bind mediaView.mediaPlayer.media.duration.toSeconds();
+var sec:Number =123;// bind mediaView.mediaPlayer.media.duration.toSeconds();
 //var sec:Integer = 10000;
 var videoHöhe:Integer = 640;
 var videoBreite:Integer = 480;
-var currentMediaFile:String = "http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
+
+var currentMediaFile:String = "file://home/camillo/Videos/test_video.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
 /**
     Label, welches den Pfad der gerade vorgeführten Datei anzeigt
 */
@@ -206,7 +203,7 @@ var offsetYSliderLabel:Label = Label {
 */
 var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
-    value: bind (mediaView.mediaPlayer.currentTime.toSeconds() / mediaView.mediaPlayer.media.duration.toSeconds()) * 100
+    //value: bind (mediaView.mediaPlayer.currentTime.toSeconds() / mediaView.mediaPlayer.media.duration.toSeconds()) * 100
 }
 /**
     Der Wert des Schieber für die vergangene Zeit
@@ -230,7 +227,7 @@ var playButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Play has been clicked");
-        mediaView.mediaPlayer.play();
+        //mediaView.mediaPlayer.play();
     }
 }
 /**
@@ -243,7 +240,7 @@ var pauseButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Pause has been clicked");
-        mediaView.mediaPlayer.pause();
+        //mediaView.mediaPlayer.pause();
     }
 }
 /**
@@ -256,7 +253,7 @@ var stopButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Stop has been clicked");
-        mediaView.mediaPlayer.stop();
+        //mediaView.mediaPlayer.stop();
     }
 }
 /**
@@ -309,12 +306,10 @@ var saveButton:Button = Button{
 /**
     Bereich wo der Film angezeigt wird
 */
-var mediaView:MediaView = MediaView{
-    layoutInfo: LayoutInfo { width: 640 }
-    preserveRatio: true
-    mediaPlayer: MyMediaPlayer {
-        media: Media{ source: bind currentMediaFile}
-    }
+
+var mediaView:MyMediaPlayer =  MyMediaPlayer{
+    url: new java.net.URL(currentMediaFile)
+    autoPlay: true;
 }
 /**
     Auswahl der noise Funktion
@@ -445,7 +440,7 @@ var stage:Stage = Stage{
         }
 }
 /**
- * Einstiegspunkt der Apllikation. Einlesen der Argumente und des properties files
+ * Einstiegspunkt der Applikation. Einlesen der Argumente und des properties files
  */
 function run(args : String[]) {
      // Convert Strings to Integers
