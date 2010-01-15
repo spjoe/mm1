@@ -6,6 +6,8 @@
 
 package org.tuwien.mm1.controls;
 
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ArrayBlockingQueue;
 import javafx.scene.CustomNode;
 import javax.media.Manager;
 import javax.media.Player;
@@ -16,7 +18,7 @@ import javafx.ext.swing.SwingComponent;
 import java.lang.System;
 import javax.media.PlugInManager;
 import javax.media.Processor;
-import javax.media.format.RGBFormat;
+import javax.media.format.VideoFormat;
 import javax.media.UnsupportedPlugInException;
 import javax.media.ControllerListener;
 import javax.media.ControllerEvent;
@@ -56,11 +58,12 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
     var panel = new javax.swing.JPanel();
     var panel2 = new javax.swing.JPanel();
 
+    var blocking:BlockingQueue;
+
 
     public var url: java.net.URL;
     public var autoPlay: Boolean;
     
-    var player:Player;
 
     public function play(){
 
@@ -71,7 +74,8 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
         //}
     //}
     public override function create(): Node{
-        Manager.setHint(Manager.PLUGIN_PLAYER, true);
+        blocking = new ArrayBlockingQueue(10);
+        Manager.setHint(Manager.LIGHTWEIGHT_RENDERER, true);
         var s = new SimpleFilter();
 
 
@@ -88,22 +92,21 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
         proc.addControllerListener(this);
         proc.configure();
 
-        
-        
-        //player = Manager.createPlayer(proc.getDataOutput() );
-        //var vis = proc.getVisualComponent();
-        
-        //var pan = proc.getControlPanelComponent();
+        //where is sync in javaFx?
+        var test = blocking.take();
+        System.out.println(test);
+        System.out.println(proc.getState());
 
+        //panel.setPreferredSize(new java.awt.Dimension(640,480));
+        //panel2.setPreferredSize(new java.awt.Dimension(640,100));
 
-        //panel.add(vis);
-        //panel2.add(pan);
+        panel.add(proc.getVisualComponent());
+        panel2.add(proc.getControlPanelComponent());
         var view = javafx.ext.swing.SwingComponent.wrap(panel);
         var view2 = javafx.ext.swing.SwingComponent.wrap(panel2);
 
-        if (autoPlay) {
+        if(autoPlay)
             proc.start();
-        }
 
         return Group{
         content: [
@@ -121,8 +124,11 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
 
                 for(t in tc){
                     var format = t.getFormat();
-                    if(format instanceof RGBFormat){
+                    System.out.println(format);
+                    if(format instanceof VideoFormat){
+                        System.out.println("juhu3");
                         var codec = [new SimpleFilter()];
+                        //System.out.println(t.getCodecChain());
                         t.setCodecChain(codec);
                     }
 
@@ -132,9 +138,8 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
             }
             if(e instanceof RealizeCompleteEvent){
                 System.out.println("juhu2");
-                panel.add(proc.getVisualComponent());
-                panel2.add(proc.getControlPanelComponent());
-                proc.start();
+                blocking.put("bla");
+                //proc.prefetch();
             }
 
     }

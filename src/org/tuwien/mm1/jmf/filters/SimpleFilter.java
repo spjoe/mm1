@@ -16,6 +16,7 @@ import javax.media.Effect;
 import javax.media.Format;
 import javax.media.ResourceUnavailableException;
 import javax.media.format.RGBFormat;
+import javax.media.format.VideoFormat;
 
 public class SimpleFilter implements Effect
 {
@@ -53,10 +54,26 @@ public class SimpleFilter implements Effect
 	public int process(Buffer input, Buffer output)
 	{
 		// Swap tra input & output
-		Object tmp = input.getData();
+		output.copy(input);
+                byte[] data = (byte[])input.getData();
+                //System.out.println(inputFormat.getEncoding());
 
-		input.setData(output.getData());
-		output.setData(tmp);
+                VideoFormat vidFormat = (VideoFormat)inputFormat;
+                RGBFormat rgbFormat = (RGBFormat)vidFormat;
+                //System.out.println(vidFormat);
+                Dimension frameSize = vidFormat.getSize();
+                //s nurSystem.out.println(rgbFormat.getBitsPerPixel());
+                
+                //int bits = rgbFormat.getBitsPerPixel();
+                int row,col;
+                for(row=0; row < frameSize.height; row++)
+                    for(col=0; col < frameSize.width; col++){
+                        data[row*frameSize.width * 3+ 3*col] = 0; //b
+                        data[row*frameSize.width * 3+ 3*col+1] = 0; //g
+                        data[row*frameSize.width * 3+ 3*col+2] +=2; //r
+                    }
+
+		output.setData(data);
 
 		return BUFFER_PROCESSED_OK;
 	}
