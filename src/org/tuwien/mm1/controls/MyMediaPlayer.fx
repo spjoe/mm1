@@ -15,10 +15,17 @@ import javafx.scene.transform.Transform;
 import javafx.ext.swing.SwingComponent;
 import java.lang.System;
 import javax.media.PlugInManager;
+import javax.media.Processor;
+import javax.media.format.RGBFormat;
+import javax.media.UnsupportedPlugInException;
+import javax.media.ControllerListener;
+import javax.media.ControllerEvent;
+import javax.media.ConfigureCompleteEvent;
+import javax.media.RealizeCompleteEvent;
 
 import org.tuwien.mm1.jmf.filters.SimpleFilter;
 
-class JavaComponent extends SwingComponent{
+class JavaComponent extends SwingComponent  {
     var comp: java.awt.Component;
 
     public override function createJComponent():javax.swing.JComponent{
@@ -39,11 +46,15 @@ class JavaComponent extends SwingComponent{
  * @author camillo
  */
 
-public class MyMediaPlayer extends CustomNode{
+public class MyMediaPlayer extends ControllerListener,CustomNode{
 
     var xpos: Number;
     var ypos: Number;
     var dx: Number;
+
+    var proc:Processor;
+    var panel = new javax.swing.JPanel();
+    var panel2 = new javax.swing.JPanel();
 
 
     public var url: java.net.URL;
@@ -54,42 +65,80 @@ public class MyMediaPlayer extends CustomNode{
     public function play(){
 
     }
+    //override var onEvent = function(e: Event){
+      //  if(e instanceof ConfigureCompleteEvent){
 
+        //}
+    //}
     public override function create(): Node{
-        Manager.setHint(Manager.LIGHTWEIGHT_RENDERER, true);
-
-        player = Manager.createRealizedPlayer(url);
-
+        Manager.setHint(Manager.PLUGIN_PLAYER, true);
         var s = new SimpleFilter();
 
 
-        PlugInManager.addPlugIn("org.tuwien..mm1.jmf.filters.SimpleFilter",
+        PlugInManager.addPlugIn("org.tuwien.mm1.jmf.filters.SimpleFilter",
             s.getSupportedInputFormats(),
             s.getSupportedOutputFormats(null),
             PlugInManager.EFFECT);
+        
+        PlugInManager.commit();
 
-        var vis = player.getVisualComponent();
-        var panel = new javax.swing.JPanel();
-        var panel2 = new javax.swing.JPanel();
-        var pan = player.getControlPanelComponent();
+        //player = Manager.createRealizedPlayer(url);
+
+        proc = Manager.createProcessor(url);
+        proc.addControllerListener(this);
+        proc.configure();
+
+        
+        
+        //player = Manager.createPlayer(proc.getDataOutput() );
+        //var vis = proc.getVisualComponent();
+        
+        //var pan = proc.getControlPanelComponent();
 
 
-        panel.add(vis);
-        panel2.add(pan);
+        //panel.add(vis);
+        //panel2.add(pan);
         var view = javafx.ext.swing.SwingComponent.wrap(panel);
         var view2 = javafx.ext.swing.SwingComponent.wrap(panel2);
 
         if (autoPlay) {
-            player.start();
+            proc.start();
         }
 
         return Group{
-            content: [
-                view,
-                view2
-            ]
-            transforms: Transform.translate(xpos, ypos)
+        content: [
+            view,
+            view2
+        ]
+        transforms: Transform.translate(xpos, ypos)
         }
     }
+    public override function controllerUpdate(e:ControllerEvent){
+            if(e instanceof ConfigureCompleteEvent){
+                System.out.println("juhu");
+                proc.setContentDescriptor(null);
+                var tc = proc.getTrackControls();
+
+                for(t in tc){
+                    var format = t.getFormat();
+                    if(format instanceof RGBFormat){
+                        var codec = [new SimpleFilter()];
+                        t.setCodecChain(codec);
+                    }
+
+                }
+
+                proc.realize();
+            }
+            if(e instanceof RealizeCompleteEvent){
+                System.out.println("juhu2");
+                panel.add(proc.getVisualComponent());
+                panel2.add(proc.getControlPanelComponent());
+                proc.start();
+            }
+
+    }
+
+
 
 }
