@@ -28,7 +28,6 @@ public class PoissonNoise implements Noise{
             L = Math.exp(-lambda);
             k = 0;
             p = 1;
-            Random rand = new Random();
             do {
                     k++;
                     p = p * rand.nextDouble();

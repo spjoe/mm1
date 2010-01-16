@@ -78,8 +78,10 @@ public class SimpleFilter implements Effect
                 //s nurSystem.out.println(rgbFormat.getBitsPerPixel());
                 
                 //int bits = rgbFormat.getBitsPerPixel();
+
                 for(int i = 0; i < data.length; i++){
-                    float c = noiseRender.doRender(data[i], 1);
+                    
+                    float c = noiseRender.doRender( ((int) data[i] & 0xFF), 1);
                     data[i] = clip(c,0,255);
                 }
                 
