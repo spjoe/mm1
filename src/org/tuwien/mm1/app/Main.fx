@@ -8,6 +8,8 @@ package org.tuwien.mm1.app;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -19,9 +21,11 @@ import java.io.FileWriter;
 import java.net.URL;
 import javafx.scene.input.MouseEvent;
 import javafx.geometry.HPos;
+import org.tuwien.mm1.jmf.filters.noise.*;
 
 
 import org.tuwien.mm1.controls.MyMediaPlayer;
+import org.tuwien.mm1.controls.MyToggleGroup;
 import org.tuwien.mm1.controls.ComboBox;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -31,6 +35,7 @@ import javafx.scene.text.Font;
 import javafx.scene.control.Slider;
 
 import javax.swing.JFileChooser;
+import javafx.scene.control.RadioButton;
 
 var sec:Number =123;// bind mediaView.mediaPlayer.media.duration.toSeconds();
 //var sec:Integer = 10000;
@@ -323,6 +328,17 @@ var noiseComboBox:ComboBox = ComboBox{
     "Lorentz"
     ]
 }
+def group = ToggleGroup{};
+def choiceText = ["Uniform", "Gauß", "Poisson","Laplace","Lorentz"];
+
+def choices = for (text in choiceText)
+RadioButton{
+        toggleGroup: group
+        text: text
+        
+}
+
+
 /**
     Linke Seite der GUI:
         mediaView,
@@ -395,7 +411,8 @@ var rightSide:VBox = VBox{
         Label{
             text: "Art der Verteilung"
         }
-        noiseComboBox
+        noiseComboBox,
+        choices
         ]
     }
     ]
@@ -443,10 +460,46 @@ var stage:Stage = Stage{
  * Einstiegspunkt der Applikation. Einlesen der Argumente und des properties files
  */
 function run(args : String[]) {
-     // Convert Strings to Integers
-    
+    // Convert Strings to Integers
 
-     noiseComboBox.select(0);
+
+    noiseComboBox.select(0);
+    choices[0].fire();
+
+    var lol = bind noiseComboBox.selectedItem on replace old {
+        if(mediaView.Filter == null){
+            return
+        }
+        if(lol.toString().equals("Gauß")){
+            mediaView.Filter.setNoiseRender(new GaussNoise(15));
+        }else if(lol.toString().equals("Lorentz")){
+            mediaView.Filter.setNoiseRender(new LorentzNoise(15));
+        }else if(lol.toString().equals("Laplace")){
+            mediaView.Filter.setNoiseRender(new LaplaceNoise(15));
+        }else if(lol.toString().equals("Uniform")){
+            mediaView.Filter.setNoiseRender(new UniformNoise(320));
+        }else if(lol.toString().equals("Poisson")){
+            mediaView.Filter.setNoiseRender(new PoissonNoise(1));
+        }
+    }
+     var lol2 = bind group.selectedButton on replace old {
+        if(mediaView.Filter != null){
+            var radio: ToggleButton = lol2;
+            System.out.println(radio.text);
+            if(radio.text.equals("Gauß")){
+                mediaView.Filter.setNoiseRender(new GaussNoise(20));
+            }else if(radio.text.equals("Lorentz")){
+                mediaView.Filter.setNoiseRender(new LorentzNoise(15));
+            }else if(radio.text.equals("Laplace")){
+                mediaView.Filter.setNoiseRender(new LaplaceNoise(15));
+            }else if(radio.text.equals("Uniform")){
+                mediaView.Filter.setNoiseRender(new UniformNoise(320));
+            }else if(radio.text.equals("Poisson")){
+                mediaView.Filter.setNoiseRender(new PoissonNoise(1));
+            }
+        }
+    }
+    
 
     var propFile = ClassLoader.getSystemResource("mplayer.properties");
     println("Properties file:  {propFile}\nContent:");

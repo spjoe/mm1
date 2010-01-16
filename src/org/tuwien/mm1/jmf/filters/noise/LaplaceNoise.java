@@ -13,6 +13,14 @@ public class LaplaceNoise implements Noise{
     Random rand = new Random();
     private float sigma;
 
+    public float getSigma() {
+        return sigma;
+    }
+
+    public void setSigma(float sigma) {
+        this.sigma = sigma;
+    }
+
     public LaplaceNoise(float sigma){
         this.sigma = sigma;
     }
