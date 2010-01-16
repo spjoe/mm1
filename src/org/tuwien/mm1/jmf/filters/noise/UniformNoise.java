@@ -11,13 +11,21 @@ import java.util.Random;
  */
 public class UniformNoise implements Noise{
     Random rand = new Random();
-    float width;
+    private float width;
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
     public UniformNoise(float width){
         this.width = width;
     }
 
     @Override
-    public float doRender(float mu, Integer n) {
+    public float doRender(float mu) {
         double u;
         u = rand.nextDouble();
         return (float) (mu + width * (u - 0.5));

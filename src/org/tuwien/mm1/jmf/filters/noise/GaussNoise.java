@@ -13,11 +13,19 @@ public class GaussNoise implements Noise {
     Random rand = new Random();
     private float sigma;
 
+    public float getSigma() {
+        return sigma;
+    }
+
+    public void setSigma(float sigma) {
+        this.sigma = sigma;
+    }
+
     public GaussNoise(float sigma){
         this.sigma = sigma;
     }
     
-    public float doRender(float a, Integer n) {
+    public float doRender(float a) {
         double r = rand.nextGaussian(); //mean 0.0 sigma = 1.0 --> mean = a sigma =15n
         return (float) (a + (r*sigma));
     }

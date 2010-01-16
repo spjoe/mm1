@@ -15,12 +15,20 @@ public class LorentzNoise implements Noise{
 
     private float gamma;
 
+    public float getGamma() {
+        return gamma;
+    }
+
+    public void setGamma(float gamma) {
+        this.gamma = gamma;
+    }
+
     public LorentzNoise(float gamma){
         this.gamma = gamma;
     }
 
     @Override
-    public float doRender(float mu, Integer n) {
+    public float doRender(float mu) {
         double u = 0.0;
         while (u <= 0.0 || u >= 1.0)
             u = rand.nextDouble();

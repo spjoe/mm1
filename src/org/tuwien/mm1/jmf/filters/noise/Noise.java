@@ -10,5 +10,5 @@ package org.tuwien.mm1.jmf.filters.noise;
  * @author camillo
  */
 public interface Noise {
-    public float doRender(float a, Integer n);
+    public float doRender(float a);
 }

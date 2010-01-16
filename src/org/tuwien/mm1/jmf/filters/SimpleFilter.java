@@ -80,7 +80,7 @@ public class SimpleFilter implements Effect
 
                 for(int i = 0; i < data.length; i++){
                     
-                    float c = noiseRender.doRender( ((int) data[i] & 0xFF), 1);
+                    float c = noiseRender.doRender( ((int) data[i] & 0xFF));
                     data[i] = clip(c,0,255);
                 }
                 

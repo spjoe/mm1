@@ -18,7 +18,7 @@ public class LaplaceNoise implements Noise{
     }
 
     @Override
-    public float doRender(float mu, Integer n) {
+    public float doRender(float mu) {
         double u, v;
         while ((u = rand.nextDouble()) == 0.0);
         v = rand.nextDouble();
