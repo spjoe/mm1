@@ -11,10 +11,15 @@ import java.util.Random;
  */
 public class GaussNoise implements Noise {
     Random rand = new Random();
+    private float sigma;
+
+    public GaussNoise(float sigma){
+        this.sigma = sigma;
+    }
     
     public float doRender(float a, Integer n) {
         double r = rand.nextGaussian(); //mean 0.0 sigma = 1.0 --> mean = a sigma =15n
-        return (float) (a + (r*15*n));
+        return (float) (a + (r*sigma));
     }
 
 }
