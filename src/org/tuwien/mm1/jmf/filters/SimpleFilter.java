@@ -17,6 +17,8 @@ import javax.media.Format;
 import javax.media.ResourceUnavailableException;
 import javax.media.format.RGBFormat;
 import javax.media.format.VideoFormat;
+import org.tuwien.mm1.jmf.filters.noise.Noise;
+import org.tuwien.mm1.jmf.filters.noise.PoissonNoise;
 
 public class SimpleFilter implements Effect
 {
@@ -26,11 +28,22 @@ public class SimpleFilter implements Effect
 	protected Format[] inputFormats = null;
 	protected Format[] outputFormats = null;
 
+        protected Noise noiseRender;
+
 	public SimpleFilter()
 	{
-		inputFormats = new Format[]{ new RGBFormat(null, Format.NOT_SPECIFIED, Format.byteArray, Format.NOT_SPECIFIED, 24, 3, 2, 1, 3, Format.NOT_SPECIFIED, Format.TRUE, Format.NOT_SPECIFIED) };
-		outputFormats = new Format[]{ new RGBFormat(null, Format.NOT_SPECIFIED, Format.byteArray, Format.NOT_SPECIFIED, 24, 3, 2, 1, 3, Format.NOT_SPECIFIED, Format.TRUE, Format.NOT_SPECIFIED) };
+                init();
+		noiseRender = new PoissonNoise();
 	}
+        public SimpleFilter(Noise n)
+        {
+            init();
+            noiseRender = n;
+        }
+        private void init(){
+            inputFormats = new Format[]{ new RGBFormat(null, Format.NOT_SPECIFIED, Format.byteArray, Format.NOT_SPECIFIED, 24, 3, 2, 1, 3, Format.NOT_SPECIFIED, Format.TRUE, Format.NOT_SPECIFIED) };
+            outputFormats = new Format[]{ new RGBFormat(null, Format.NOT_SPECIFIED, Format.byteArray, Format.NOT_SPECIFIED, 24, 3, 2, 1, 3, Format.NOT_SPECIFIED, Format.TRUE, Format.NOT_SPECIFIED) };
+        }
 
 	/****** Codec ******/
 	public Format[] getSupportedInputFormats()
@@ -61,23 +74,25 @@ public class SimpleFilter implements Effect
                 VideoFormat vidFormat = (VideoFormat)inputFormat;
                 RGBFormat rgbFormat = (RGBFormat)vidFormat;
                 //System.out.println(vidFormat);
-                Dimension frameSize = vidFormat.getSize();
+                //Dimension frameSize = vidFormat.getSize();
                 //s nurSystem.out.println(rgbFormat.getBitsPerPixel());
                 
                 //int bits = rgbFormat.getBitsPerPixel();
-                int row,col;
-                for(row=0; row < frameSize.height; row++)
-                    for(col=0; col < frameSize.width; col++){
-                        data[row*frameSize.width * 3+ 3*col] = 0; //b
-                        data[row*frameSize.width * 3+ 3*col+1] = 0; //g
-                        data[row*frameSize.width * 3+ 3*col+2] +=2; //r
-                    }
-
+                for(int i = 0; i < data.length; i++){
+                    float c = noiseRender.doRender(data[i], 1);
+                    data[i] = clip(c,0,255);
+                }
+                
 		output.setData(data);
 
 		return BUFFER_PROCESSED_OK;
 	}
+        private byte clip(float a, Integer down, Integer upp){
+            if (a < down) return down.byteValue();
+            if (a > upp) return upp.byteValue();
 
+            return (byte)a;
+        }
 	public Format setInputFormat(Format input)
 	{
 		inputFormat = input;
