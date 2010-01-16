@@ -19,6 +19,7 @@ import javax.media.format.RGBFormat;
 import javax.media.format.VideoFormat;
 import org.tuwien.mm1.jmf.filters.noise.Noise;
 import org.tuwien.mm1.jmf.filters.noise.PoissonNoise;
+import org.tuwien.mm1.jmf.filters.noise.GaussNoise;
 
 public class SimpleFilter implements Effect
 {
@@ -33,7 +34,7 @@ public class SimpleFilter implements Effect
 	public SimpleFilter()
 	{
                 init();
-		noiseRender = new PoissonNoise();
+		noiseRender = new GaussNoise();
 	}
         public SimpleFilter(Noise n)
         {
@@ -183,4 +184,7 @@ public class SimpleFilter implements Effect
 		return null;
 	}
 	/****** Utility ******/
+        public void setNoiseRender(Noise n){
+            noiseRender = n;
+        }
 }

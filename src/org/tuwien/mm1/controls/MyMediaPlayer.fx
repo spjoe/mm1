@@ -63,7 +63,8 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
 
     public var url: java.net.URL;
     public var autoPlay: Boolean;
-    
+
+    public var Filter: org.tuwien.mm1.jmf.filters.SimpleFilter;
 
     public function play(){
 
@@ -127,7 +128,8 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
                     System.out.println(format);
                     if(format instanceof VideoFormat){
                         System.out.println("juhu3");
-                        var codec = [new SimpleFilter()];
+                        Filter = new SimpleFilter();
+                        var codec = [Filter];
                         //System.out.println(t.getCodecChain());
                         t.setCodecChain(codec);
                     }

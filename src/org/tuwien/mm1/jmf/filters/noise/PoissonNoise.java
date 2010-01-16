@@ -17,7 +17,6 @@ public class PoissonNoise implements Noise{
         rand = new Random();
     }
 
-    @Override
     public float doRender(float lambda, Integer n) {
         double L, p;
             Integer k;
