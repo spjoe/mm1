@@ -13,6 +13,7 @@ import java.util.Random;
 public class PoissonNoise implements Noise{
     Random rand = new Random();
     private int photons;
+    private int maxPhotons;
 
     public int getPhotons() {
         return photons;
@@ -23,9 +24,10 @@ public class PoissonNoise implements Noise{
     }
 
     public PoissonNoise(int photons){
-        this.photons = photons;
+        this.maxPhotons = photons;
     }
 
+    @Override
     public float doRender(float lambda) {
         return poissonHelp(lambda,photons);
         
@@ -45,6 +47,11 @@ public class PoissonNoise implements Noise{
                     p = p * rand.nextDouble();
             } while (p >= L && k <= 255);
             return k - 1 + poissonHelp(lambda, n - 1);
+    }
+
+    @Override
+    public void setIntensität(int i) {
+        photons = (int) (i / 100.0f * photons);
     }
 
 }

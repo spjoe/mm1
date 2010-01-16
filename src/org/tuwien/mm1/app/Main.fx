@@ -487,18 +487,34 @@ function run(args : String[]) {
             var radio: ToggleButton = lol2;
             System.out.println(radio.text);
             if(radio.text.equals("Gauß")){
-                mediaView.Filter.setNoiseRender(new GaussNoise(20));
+                var n:Noise = new GaussNoise(30);
+                n.setIntensität(intensitätSlider.value);
+                mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Lorentz")){
-                mediaView.Filter.setNoiseRender(new LorentzNoise(15));
+                var n:Noise = new LorentzNoise(30);
+                n.setIntensität(intensitätSlider.value);
+                mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Laplace")){
-                mediaView.Filter.setNoiseRender(new LaplaceNoise(15));
+                var n:Noise = new LaplaceNoise(30);
+                n.setIntensität(intensitätSlider.value);
+                mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Uniform")){
-                mediaView.Filter.setNoiseRender(new UniformNoise(320));
+                var n:Noise = new UniformNoise(320);
+                n.setIntensität(intensitätSlider.value);
+                mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Poisson")){
-                mediaView.Filter.setNoiseRender(new PoissonNoise(1));
+                var n:Noise = new PoissonNoise(1);
+                n.setIntensität(intensitätSlider.value);
+                mediaView.Filter.setNoiseRender(n);
             }
         }
     }
+    var lol3 = bind intensitätSlider.value on replace old {
+        if(mediaView.Filter != null){
+            mediaView.Filter.getNoiseRender().setIntensität(lol3);
+        }
+    }
+
     
 
     var propFile = ClassLoader.getSystemResource("mplayer.properties");

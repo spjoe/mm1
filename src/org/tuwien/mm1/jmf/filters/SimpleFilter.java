@@ -185,4 +185,7 @@ public class SimpleFilter implements Effect
         public void setNoiseRender(Noise n){
             noiseRender = n;
         }
+        public Noise getNoiseRender(){
+            return noiseRender;
+        }
 }

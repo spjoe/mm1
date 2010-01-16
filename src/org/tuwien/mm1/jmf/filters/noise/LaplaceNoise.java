@@ -12,6 +12,7 @@ import java.util.Random;
 public class LaplaceNoise implements Noise{
     Random rand = new Random();
     private float sigma;
+    private float maxSigma;
 
     public float getSigma() {
         return sigma;
@@ -22,7 +23,7 @@ public class LaplaceNoise implements Noise{
     }
 
     public LaplaceNoise(float sigma){
-        this.sigma = sigma;
+        this.maxSigma = sigma;
     }
 
     @Override
@@ -32,6 +33,11 @@ public class LaplaceNoise implements Noise{
         v = rand.nextDouble();
         /* FIXME: rounding bias here! */
         return (float) (mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v));
+    }
+
+    @Override
+    public void setIntensität(int i) {
+        sigma = i/100.0f * maxSigma;
     }
 
 }

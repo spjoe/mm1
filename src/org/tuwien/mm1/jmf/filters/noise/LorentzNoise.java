@@ -14,6 +14,7 @@ public class LorentzNoise implements Noise{
     Random rand = new Random();
 
     private float gamma;
+    private float maxGamma;
 
     public float getGamma() {
         return gamma;
@@ -24,7 +25,7 @@ public class LorentzNoise implements Noise{
     }
 
     public LorentzNoise(float gamma){
-        this.gamma = gamma;
+        this.maxGamma = gamma;
     }
 
     @Override
@@ -33,6 +34,11 @@ public class LorentzNoise implements Noise{
         while (u <= 0.0 || u >= 1.0)
             u = rand.nextDouble();
         return (float) (mu + gamma * Math.tan(Math.PI * (u - 0.5)));
+    }
+
+    @Override
+    public void setIntensität(int i) {
+        gamma = i/100.0f * maxGamma;
     }
 
 }
