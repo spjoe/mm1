@@ -37,10 +37,10 @@ import javafx.scene.control.Slider;
 import javax.swing.JFileChooser;
 import javafx.scene.control.RadioButton;
 
-var sec:Number =123;// bind mediaView.mediaPlayer.media.duration.toSeconds();
+var sec:Number =bind mediaView.dauer;
 //var sec:Integer = 10000;
-var videoHöhe:Integer = 640;
-var videoBreite:Integer = 480;
+var videoHöhe:Integer = bind mediaView.videoHöhe;
+var videoBreite:Integer = bind mediaView.videoBreite;
 
 var currentMediaFile:String = "file://home/camillo/Videos/test_video.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
 /**
@@ -150,7 +150,7 @@ var breiteLabel:Label = Label{
 */
 var breiteSlider:Slider = Slider{
     min: 0
-    max: videoBreite
+    max: bind videoBreite
 }
 /**
     Der Wert des Schieber für die Breite des Filters
@@ -171,7 +171,7 @@ var offsetXLabel:Label = Label{
 */
 var offsetXSlider:Slider = Slider{
     min: 0
-    max: videoBreite
+    max: bind videoBreite
 
 }
 /**
@@ -193,7 +193,7 @@ var offsetYLabel:Label = Label{
 */
 var offsetYSlider:Slider = Slider{
     min: 0
-    max: videoHöhe
+    max: bind videoHöhe
 }
 /**
     Der Wert des Schieber für die Bodenabstands des Filters
@@ -487,19 +487,19 @@ function run(args : String[]) {
             var radio: ToggleButton = lol2;
             System.out.println(radio.text);
             if(radio.text.equals("Gauß")){
-                var n:Noise = new GaussNoise(30);
+                var n:Noise = new GaussNoise(50);
                 n.setIntensität(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Lorentz")){
-                var n:Noise = new LorentzNoise(30);
+                var n:Noise = new LorentzNoise(50);
                 n.setIntensität(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Laplace")){
-                var n:Noise = new LaplaceNoise(30);
+                var n:Noise = new LaplaceNoise(50);
                 n.setIntensität(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Uniform")){
-                var n:Noise = new UniformNoise(320);
+                var n:Noise = new UniformNoise(50);
                 n.setIntensität(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Poisson")){
@@ -514,9 +514,28 @@ function run(args : String[]) {
             mediaView.Filter.getNoiseRender().setIntensität(lol3);
         }
     }
+    var lol4 = bind breiteSlider.value on replace old {
+        if(mediaView.Filter != null){
+            mediaView.Filter.setFilterBreite(lol4);
+        }
+    }
+    var lol5 = bind höheSlider.value on replace old {
+        if(mediaView.Filter != null){
+            mediaView.Filter.setFilterHöhe(lol5);
+        }
+    }
+    var lol6 = bind offsetXSlider.value on replace old {
+        if(mediaView.Filter != null){
+            mediaView.Filter.setOffsetX(lol6);
+        }
+    }
+    var lol7 = bind offsetYSlider.value on replace old {
+        if(mediaView.Filter != null){
+            mediaView.Filter.setOffsetY(lol7);
+        }
+    }
 
     
-
     var propFile = ClassLoader.getSystemResource("mplayer.properties");
     println("Properties file:  {propFile}\nContent:");
     var prop = new Properties();

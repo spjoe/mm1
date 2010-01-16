@@ -29,10 +29,30 @@ public class SimpleFilter implements Effect
 
         protected Noise noiseRender;
 
+        private int offsetX = 0;
+        private int offsetY = 0;
+        private int filterBreite = 0;
+        private int filterHöhe = 0;
+
+        public void setFilterBreite(int filterBreite) {
+            this.filterBreite = filterBreite;
+        }
+        public void setFilterHöhe(int filterHöhe) {
+            this.filterHöhe = filterHöhe;
+        }
+
+        public void setOffsetX(int offsetX) {
+            this.offsetX = offsetX;
+        }
+        public void setOffsetY(int offsetY) {
+            this.offsetY = offsetY;
+        }
+
 	public SimpleFilter()
 	{
                 init();
-		noiseRender = new LorentzNoise(15);
+		noiseRender = new UniformNoise(50);
+                noiseRender.setIntensität(50);
 	}
         public SimpleFilter(Noise n)
         {
@@ -73,16 +93,29 @@ public class SimpleFilter implements Effect
                 VideoFormat vidFormat = (VideoFormat)inputFormat;
                 RGBFormat rgbFormat = (RGBFormat)vidFormat;
                 //System.out.println(vidFormat);
-                //Dimension frameSize = vidFormat.getSize();
+                Dimension frameSize = vidFormat.getSize();
                 //s nurSystem.out.println(rgbFormat.getBitsPerPixel());
                 
-                //int bits = rgbFormat.getBitsPerPixel();
-
-                for(int i = 0; i < data.length; i++){
-                    
-                    float c = noiseRender.doRender( ((int) data[i] & 0xFF));
-                    data[i] = clip(c,0,255);
+                int bits = rgbFormat.getBitsPerPixel();
+                if(bits != 24){
+                    output.setData(data);
+                    return BUFFER_PROCESSED_OK;
                 }
+                for (int row = 0 + offsetY; row < offsetY + filterHöhe && row < frameSize.height; row++){
+                    for(int col = 0 + offsetX; col < offsetX + filterBreite && col < frameSize.width; col++){
+                        for(int chan = 0; chan < 3;chan++){
+                            int index = row*frameSize.width*3 + col * 3 + chan;
+                            int cur =((int) data[index] & 0xFF);
+                            float c = noiseRender.doRender(cur);
+                            data[index] = clip(c,0,255);
+                        }
+                    }
+                }
+                //for(int i = 0; i < data.length; i++){
+                    
+                  //  float c = noiseRender.doRender( ((int) data[i] & 0xFF));
+                  //  data[i] = clip(c,0,255);
+                //}
                 
 		output.setData(data);
 

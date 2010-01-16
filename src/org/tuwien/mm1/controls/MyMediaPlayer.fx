@@ -54,6 +54,10 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
     var ypos: Number;
     var dx: Number;
 
+    public var videoHöhe = 0;
+    public var videoBreite = 0;
+    public var dauer = 0.0;
+
     var proc:Processor;
     var panel = new javax.swing.JPanel();
     var panel2 = new javax.swing.JPanel();
@@ -127,6 +131,12 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
                     var format = t.getFormat();
                     System.out.println(format);
                     if(format instanceof VideoFormat){
+                        var bla:VideoFormat;
+                        bla = format as VideoFormat;
+                        videoBreite = bla.getSize().width;
+                        videoHöhe = bla.getSize().height;
+                        dauer = this.proc.getDuration().getSeconds();
+
                         System.out.println("juhu3");
                         Filter = new SimpleFilter();
                         var codec = [Filter];
@@ -141,6 +151,7 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
             if(e instanceof RealizeCompleteEvent){
                 System.out.println("juhu2");
                 blocking.put("bla");
+                
                 //proc.prefetch();
             }
 

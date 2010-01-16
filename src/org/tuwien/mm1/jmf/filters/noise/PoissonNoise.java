@@ -51,7 +51,7 @@ public class PoissonNoise implements Noise{
 
     @Override
     public void setIntensität(int i) {
-        photons = (int) (i / 100.0f * photons);
+        photons = 1;
     }
 
 }
