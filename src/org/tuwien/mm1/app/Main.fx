@@ -24,6 +24,7 @@ import javafx.geometry.HPos;
 import org.tuwien.mm1.jmf.filters.noise.*;
 import javax.media.DataSink;
 import javax.media.Time;
+import java.util.*;
 
 
 import org.tuwien.mm1.controls.MyMediaPlayer;
@@ -212,14 +213,22 @@ var offsetYSliderLabel:Label = Label {
 var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
     clickToPosition:true;
-
-    //value: bind (mediaView.mediaPlayer.currentTime.toSeconds() / mediaView.mediaPlayer.media.duration.toSeconds()) * 100
+    max: bind mediaView.dauer;
+    //value: bind mediaView.proc.getMediaTime().getSeconds()/(mediaView.dauer/100);
+    
 }
 
-var onSlideChange = bind timeSlider.value on replace old {
-        mediaView.proc.setMediaTime(new Time(sec*timeSlider.value/100));
-        System.out.println("timeSlider: setMediaTime to {(sec*timeSlider.value/100)}");
-        }
+var onSliderChange = bind timeSlider.value on replace {
+    mediaView.proc.setMediaTime(new Time(sec*timeSlider.value/100));
+    System.out.println("timeSlider: setMediaTime to {(sec*timeSlider.value/100)}");
+}
+/*
+var letsMoveTheSliderAlong = bind mediaView.proc.getMediaTime() on replace {
+    timeSlider.adjustValue(mediaView.proc.getMediaTime().getSeconds()/(mediaView.dauer/100));
+}
+*/
+
+
 /**
     Der Wert des Schieber für die vergangene Zeit
 */
@@ -273,6 +282,7 @@ var stopButton:Button = Button{
         mediaView.proc.stop();
         mediaView.proc.setMediaTime(new Time(0.0));
         timeSlider.adjustValue(0);
+        
         //mediaView.mediaPlayer.stop();
     }
 }
@@ -300,9 +310,19 @@ var openButton:Button = Button{
     
     action: function() {
         if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
+
             var file = chooser.getSelectedFile();
-            currentMediaFile = file.toURI().toString();
-            //System.out.println(currentMediaFile);
+
+            /** Case: User entered URL into Dialog */
+            if(file.toString().indexOf("http")!=-1){
+                currentMediaFile=chooser.getName();
+            }
+            /** Case: User chose local File */
+            else {
+                currentMediaFile = file.toURI().toString();
+            }
+            
+            System.out.println(currentMediaFile);
 
             mediaView.proc.stop();
             mediaView.proc.deallocate();
@@ -493,6 +513,8 @@ var stage:Stage = Stage{
 /**
  * Einstiegspunkt der Applikation. Einlesen der Argumente und des properties files
  */
+
+
 function run(args : String[]) {
     // Convert Strings to Integers
 
