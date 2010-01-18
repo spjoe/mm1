@@ -22,6 +22,7 @@ import java.net.URL;
 import javafx.scene.input.MouseEvent;
 import javafx.geometry.HPos;
 import org.tuwien.mm1.jmf.filters.noise.*;
+import javax.media.DataSink;
 
 
 import org.tuwien.mm1.controls.MyMediaPlayer;
@@ -36,13 +37,14 @@ import javafx.scene.control.Slider;
 
 import javax.swing.JFileChooser;
 import javafx.scene.control.RadioButton;
+import javax.media.Manager;
 
 var sec:Number =bind mediaView.dauer;
 //var sec:Integer = 10000;
 var videoHöhe:Integer = bind mediaView.videoHöhe;
 var videoBreite:Integer = bind mediaView.videoBreite;
 
-var currentMediaFile:String = "file://home/camillo/Videos/test_video.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
+var currentMediaFile:String = "file://Users/awiesi/Downloads/1984.apple_ad.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
 /**
     Label, welches den Pfad der gerade vorgeführten Datei anzeigt
 */
@@ -233,6 +235,7 @@ var playButton:Button = Button{
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Play has been clicked");
         //mediaView.mediaPlayer.play();
+        mediaView.proc.start();
     }
 }
 /**
@@ -246,6 +249,7 @@ var pauseButton:Button = Button{
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Pause has been clicked");
         //mediaView.mediaPlayer.pause();
+        mediaView.proc.stop();
     }
 }
 /**
@@ -258,9 +262,21 @@ var stopButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Stop has been clicked");
+        mediaView.proc.stop();
+        
         //mediaView.mediaPlayer.stop();
     }
 }
+
+/**
+    Bereich wo der Film angezeigt wird
+*/
+
+var mediaView:MyMediaPlayer =  MyMediaPlayer{
+    url: new java.net.URL(currentMediaFile)
+    autoPlay: true;
+}
+
 /**
     Öffnen Dialog
 */
@@ -277,9 +293,26 @@ var openButton:Button = Button{
         if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
             var file = chooser.getSelectedFile();
             currentMediaFile = file.toURI().toString();
+            System.out.println(currentMediaFile);
+
+            mediaView.proc.stop();
+            mediaView.proc.close();
+            mediaView.proc.deallocate();
+            mediaView.disable = true;
+            delete mediaView from stage.scene.content;
+
+       
+            mediaView = MyMediaPlayer{
+                url: new java.net.URL(currentMediaFile)
+                autoPlay: true;
+            }
+
+            insert mediaView into stage.scene.content;
+            
         }
     }
 }
+
 /**
     Knopf zum speichern des Filmes
 */
@@ -293,8 +326,7 @@ var saveButton:Button = Button{
             var file = chooser.getSelectedFile();
             var url = new URL(currentMediaFile);
 
-            
-            var in = url.openStream();
+            /*var in = url.openStream();
             var out = new FileWriter(file);
             
             var c:Integer;
@@ -304,18 +336,12 @@ var saveButton:Button = Button{
 
             in.close();
             out.close();
+            */
 
         }
     }
 }
-/**
-    Bereich wo der Film angezeigt wird
-*/
 
-var mediaView:MyMediaPlayer =  MyMediaPlayer{
-    url: new java.net.URL(currentMediaFile)
-    autoPlay: true;
-}
 /**
     Auswahl der noise Funktion
 */

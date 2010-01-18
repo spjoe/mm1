@@ -31,7 +31,7 @@ public class GaussNoise implements Noise {
         return (float) (a + (r*sigma));
     }
 
-    @Override
+    /*@Override*/
     public void setIntensität(int i) {
         sigma = i/100.0f * maxSigma;
     }

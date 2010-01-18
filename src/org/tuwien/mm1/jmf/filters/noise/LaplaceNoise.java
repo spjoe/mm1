@@ -26,7 +26,7 @@ public class LaplaceNoise implements Noise{
         this.maxSigma = sigma;
     }
 
-    @Override
+    /*@Override*/
     public float doRender(float mu) {
         double u, v;
         while ((u = rand.nextDouble()) == 0.0);
@@ -35,7 +35,7 @@ public class LaplaceNoise implements Noise{
         return (float) (mu + sigma * Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v));
     }
 
-    @Override
+    /*@Override*/
     public void setIntensität(int i) {
         sigma = i/100.0f * maxSigma;
     }

@@ -25,14 +25,14 @@ public class UniformNoise implements Noise{
         this.maxWidth = width;
     }
 
-    @Override
+    /*@Override*/
     public float doRender(float mu) {
         double u;
         u = rand.nextDouble();
         return (float) (mu + width * (u - 0.5));
     }
 
-    @Override
+    /*@Override*/
     public void setIntensität(int i) {
         width = i/100.0f * maxWidth;
     }

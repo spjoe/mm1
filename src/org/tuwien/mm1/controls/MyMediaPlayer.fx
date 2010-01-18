@@ -58,7 +58,7 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
     public var videoBreite = 0;
     public var dauer = 0.0;
 
-    var proc:Processor;
+    public var proc:Processor;
     var panel = new javax.swing.JPanel();
     var panel2 = new javax.swing.JPanel();
 
@@ -71,7 +71,6 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
     public var Filter: org.tuwien.mm1.jmf.filters.SimpleFilter;
 
     public function play(){
-
     }
     //override var onEvent = function(e: Event){
       //  if(e instanceof ConfigureCompleteEvent){
@@ -92,7 +91,7 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
         PlugInManager.commit();
 
         //player = Manager.createRealizedPlayer(url);
-
+        
         proc = Manager.createProcessor(url);
         proc.addControllerListener(this);
         proc.configure();

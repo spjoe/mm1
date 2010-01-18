@@ -27,7 +27,7 @@ public class PoissonNoise implements Noise{
         this.maxPhotons = photons;
     }
 
-    @Override
+    /*@Override*/
     public float doRender(float lambda) {
         return poissonHelp(lambda,photons);
         
@@ -49,7 +49,7 @@ public class PoissonNoise implements Noise{
             return k - 1 + poissonHelp(lambda, n - 1);
     }
 
-    @Override
+    /*@Override*/
     public void setIntensität(int i) {
         photons = 1;
     }
