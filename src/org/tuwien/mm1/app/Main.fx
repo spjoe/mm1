@@ -211,8 +211,15 @@ var offsetYSliderLabel:Label = Label {
 */
 var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
+    clickToPosition:true;
+
     //value: bind (mediaView.mediaPlayer.currentTime.toSeconds() / mediaView.mediaPlayer.media.duration.toSeconds()) * 100
 }
+
+var onSlideChange = bind timeSlider.value on replace old {
+        mediaView.proc.setMediaTime(new Time(sec*timeSlider.value/100));
+        System.out.println("timeSlider: setMediaTime to {(sec*timeSlider.value/100)}");
+        }
 /**
     Der Wert des Schieber für die vergangene Zeit
 */
@@ -264,7 +271,8 @@ var stopButton:Button = Button{
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Stop has been clicked");
         mediaView.proc.stop();
-        
+        mediaView.proc.setMediaTime(new Time(0.0));
+        timeSlider.adjustValue(0);
         //mediaView.mediaPlayer.stop();
     }
 }
