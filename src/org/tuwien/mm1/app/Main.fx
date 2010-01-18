@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.geometry.HPos;
 import org.tuwien.mm1.jmf.filters.noise.*;
 import javax.media.DataSink;
+import javax.media.Time;
 
 
 import org.tuwien.mm1.controls.MyMediaPlayer;
@@ -293,15 +294,14 @@ var openButton:Button = Button{
         if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
             var file = chooser.getSelectedFile();
             currentMediaFile = file.toURI().toString();
-            System.out.println(currentMediaFile);
+            //System.out.println(currentMediaFile);
 
             mediaView.proc.stop();
-            mediaView.proc.close();
             mediaView.proc.deallocate();
-            mediaView.disable = true;
-            delete mediaView from stage.scene.content;
 
-       
+            delete mediaView from stage.scene.content;
+            mediaView = null;
+
             mediaView = MyMediaPlayer{
                 url: new java.net.URL(currentMediaFile)
                 autoPlay: true;
