@@ -134,7 +134,6 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
                         bla = format as VideoFormat;
                         videoBreite = bla.getSize().width;
                         videoHöhe = bla.getSize().height;
-                        dauer = this.proc.getDuration().getSeconds();
 
                         System.out.println("juhu3");
                         Filter = new SimpleFilter();
@@ -150,7 +149,7 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
             if(e instanceof RealizeCompleteEvent){
                 System.out.println("juhu2");
                 blocking.put("bla");
-                
+                dauer = proc.getDuration().getSeconds();
                 //proc.prefetch();
             }
 
