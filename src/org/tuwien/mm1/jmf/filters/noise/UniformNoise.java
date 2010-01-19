@@ -14,18 +14,35 @@ public class UniformNoise implements Noise{
     private float width;
     private float maxWidth;
 
+    /**
+     *
+     * @return
+     */
     public float getWidth() {
         return width;
     }
 
+    /**
+     *
+     * @param maxWidth
+     */
     public void setWidth(float maxWidth) {
         this.width = maxWidth;
     }
+    /**
+     *
+     * @param width
+     */
     public UniformNoise(float width){
         this.maxWidth = width;
     }
 
     /*@Override*/
+    /**
+     *
+     * @param mu
+     * @return
+     */
     public float doRender(float mu) {
         double u;
         u = rand.nextDouble();
@@ -33,7 +50,11 @@ public class UniformNoise implements Noise{
     }
 
     /*@Override*/
-    public void setIntensität(int i) {
+    /**
+     *
+     * @param i
+     */
+    public void setIntensitaet(int i) {
         width = i/100.0f * maxWidth;
     }
 

@@ -10,6 +10,15 @@ package org.tuwien.mm1.jmf.filters.noise;
  * @author camillo
  */
 public interface Noise {
+    /**
+     *
+     * @param a
+     * @return
+     */
     public float doRender(float a);
-    public void setIntensität(int i);//in Prozent
+    /**
+     *
+     * @param i
+     */
+    public void setIntensitaet(int i);//in Prozent
 }

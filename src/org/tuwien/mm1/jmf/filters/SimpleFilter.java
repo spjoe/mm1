@@ -19,18 +19,41 @@ import javax.media.format.RGBFormat;
 import javax.media.format.VideoFormat;
 import org.tuwien.mm1.jmf.filters.noise.*;
 
+/**
+ *
+ * @author awiesi
+ */
 public class SimpleFilter implements Effect
 {
-	protected Format inputFormat = null;
-	protected Format outputFormat = null;
+    /**
+     *
+     */
+    protected Format inputFormat = null;
+        /**
+         *
+         */
+        protected Format outputFormat = null;
 
-	protected Format[] inputFormats = null;
-	protected Format[] outputFormats = null;
+        /**
+         *
+         */
+        protected Format[] inputFormats = null;
+        /**
+         *
+         */
+        protected Format[] outputFormats = null;
 
+        /**
+         *
+         */
         protected Noise noiseRender;
 
         private boolean enabled = true;
 
+        /**
+         *
+         * @param enabled
+         */
         public void setEnabled(boolean enabled) {
             this.enabled = enabled;
         }
@@ -38,28 +61,51 @@ public class SimpleFilter implements Effect
         private int offsetX = 0;
         private int offsetY = 0;
         private int filterBreite = 0;
-        private int filterHöhe = 0;
+        private int filterHoehe = 0;
 
+        /**
+         *
+         * @param filterBreite
+         */
         public void setFilterBreite(int filterBreite) {
             this.filterBreite = filterBreite;
         }
-        public void setFilterHöhe(int filterHöhe) {
-            this.filterHöhe = filterHöhe;
+        /**
+         *
+         * @param filterHoehe
+         */
+        public void setFilterHoehe(int filterHoehe) {
+            this.filterHoehe = filterHoehe;
         }
 
+        /**
+         *
+         * @param offsetX
+         */
         public void setOffsetX(int offsetX) {
             this.offsetX = offsetX;
         }
+        /**
+         *
+         * @param offsetY
+         */
         public void setOffsetY(int offsetY) {
             this.offsetY = offsetY;
         }
 
-	public SimpleFilter()
+        /**
+         *
+         */
+        public SimpleFilter()
 	{
                 init();
 		noiseRender = new UniformNoise(50);
-                noiseRender.setIntensität(50);
+                noiseRender.setIntensitaet(50);
 	}
+        /**
+         *
+         * @param n
+         */
         public SimpleFilter(Noise n)
         {
             init();
@@ -70,13 +116,20 @@ public class SimpleFilter implements Effect
             outputFormats = new Format[]{ new RGBFormat(null, Format.NOT_SPECIFIED, Format.byteArray, Format.NOT_SPECIFIED, 24, 3, 2, 1, 3, Format.NOT_SPECIFIED, Format.TRUE, Format.NOT_SPECIFIED) };
         }
 
-	/****** Codec ******/
+        /****** Codec *****
+         * @return
+         */
 	public Format[] getSupportedInputFormats()
 	{
 		return inputFormats;
 	}
 
-	public Format[] getSupportedOutputFormats(Format input)
+        /**
+         *
+         * @param input
+         * @return
+         */
+        public Format[] getSupportedOutputFormats(Format input)
 	{
 		if(input != null)
 		{
@@ -89,7 +142,13 @@ public class SimpleFilter implements Effect
 		return outputFormats;
 	}
 
-	public int process(Buffer input, Buffer output)
+        /**
+         *
+         * @param input
+         * @param output
+         * @return
+         */
+        public int process(Buffer input, Buffer output)
 	{
             if(enabled == false){
                output.copy(input);
@@ -113,7 +172,7 @@ public class SimpleFilter implements Effect
                     output.setData(data);
                     return BUFFER_PROCESSED_OK;
                 }
-                for (int row = 0 + offsetY; row < offsetY + filterHöhe && row < frameSize.height; row++){
+                for (int row = 0 + offsetY; row < offsetY + filterHoehe && row < frameSize.height; row++){
                     for(int col = 0 + offsetX; col < offsetX + filterBreite && col < frameSize.width; col++){
                         for(int chan = 0; chan < 3;chan++){
                             int index = row*frameSize.width*3 + col * 3 + chan;
@@ -139,14 +198,24 @@ public class SimpleFilter implements Effect
 
             return (byte)a;
         }
-	public Format setInputFormat(Format input)
+        /**
+         *
+         * @param input
+         * @return
+         */
+        public Format setInputFormat(Format input)
 	{
 		inputFormat = input;
 
 		return input;
 	}
 
-	public Format setOutputFormat(Format output)
+        /**
+         *
+         * @param output
+         * @return
+         */
+        public Format setOutputFormat(Format output)
 	{
 		if(output != null || matches(output, outputFormats) != null)
 		{
@@ -184,29 +253,47 @@ public class SimpleFilter implements Effect
 
 	}
 
-	public String getName()
+        /**
+         *
+         * @return
+         */
+        public String getName()
 	{
 		return "Simple-Filter";
 	}
 
-	public void open() throws ResourceUnavailableException
+        /**
+         *
+         * @throws ResourceUnavailableException
+         */
+        public void open() throws ResourceUnavailableException
 	{
 
 	}
 
-	public void reset()
+        /**
+         *
+         */
+        public void reset()
 	{
 
 	}
 	/****** PlugIn ******/
 
-	/****** Controls ******/
+        /****** Controls *****
+         * @param controlType
+         * @return
+         */
 	public Object getControl(String controlType)
 	{
 		return null;
 	}
 
-	public Object[] getControls()
+        /**
+         *
+         * @return
+         */
+        public Object[] getControls()
 	{
 		return null;
 	}
@@ -226,10 +313,16 @@ public class SimpleFilter implements Effect
 
 		return null;
 	}
-	/****** Utility ******/
+        /****** Utility *****
+         * @param n
+         */
         public void setNoiseRender(Noise n){
             noiseRender = n;
         }
+        /**
+         *
+         * @return
+         */
         public Noise getNoiseRender(){
             return noiseRender;
         }

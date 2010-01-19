@@ -21,13 +21,32 @@
 <Entry>
 <Date>2009-10-22</Date>
 <Duration timeUnit="h">2</Duration>
-<Subject>Parameter-Bestimmung und GUI Entwurf, skizze, Über e-mail auf design Abgestimmt.</Subject>
+<Subject>Parameter-Bestimmung und GUI Entwurf, Skizze, Über e-mail auf Design Abgestimmt.</Subject>
 </Entry>
 <Entry>
 <Date>2009-10-23</Date>
 <Duration timeUnit="h">2</Duration>
 <Subject>Aufgabenbeschreibung erstellt</Subject>
 </Entry>
-
+<Entry>
+<Date>2010-01-15</Date>
+<Duration timeUnit="h">7</Duration>
+<Subject>Online-Kollaboration: SimpleFilter und PoissonNoise implementiert</Subject>
+</Entry>
+<Entry>
+<Date>2010-01-16</Date>
+<Duration timeUnit="h">3</Duration>
+<Subject>GUI Steuerelemente an Processor angebunden</Subject>
+</Entry>
+<Entry>
+<Date>2010-01-18</Date>
+<Duration timeUnit="h">5</Duration>
+<Subject>Meeting; Datei bzw. URL öffnen implementiert, Slider-Steuerelement aktiviert, Filter-Parameter Beginn + Dauer mit Timer implementiert</Subject>
+</Entry>
+<Entry>
+<Date>2010-01-19</Date>
+<Duration timeUnit="h">4</Duration>
+<Subject>Versucht Slider zu animieren, Javadoc generiert/Abgabe zusammengestellt</Subject>
+</Entry>
 </Entries>
 </Diary>

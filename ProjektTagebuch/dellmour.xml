@@ -53,14 +53,30 @@
 <Duration timeUnit="h">2</Duration>
 <Subject>JavaFx mit jmc auf 64bit ubuntu9.10 zum laufenbringen</Subject>
 </Entry>
-
-
 <Entry>
 <Date>2009-11-28</Date>
 <Duration timeUnit="h">2</Duration>
 <Subject>JavaFx rennt auf vm ubuntu9.04 32bit, videos testen</Subject>
 </Entry>
-
-
+<Entry>
+<Date>2010-01-15</Date>
+<Duration timeUnit="h">7</Duration>
+<Subject>Online-Kollaboration: SimpleFilter und PoissonNoise implementiert</Subject>
+</Entry>
+<Entry>
+<Date>2010-01-16</Date>
+<Duration timeUnit="h">5</Duration>
+<Subject>Weitere Noise-Filter implementiert</Subject>
+</Entry>
+<Entry>
+<Date>2010-01-17</Date>
+<Duration timeUnit="h">2</Duration>
+<Subject>Filter-Parameter Höhe, Breite und Offsets angebunden</Subject>
+</Entry>
+<Entry>
+<Date>2010-01-18</Date>
+<Duration timeUnit="h">5</Duration>
+<Subject>Meeting; Begonnen Speichern zu implementieren, Filter-Parameter Beginn + Dauer mit Timer implementiert</Subject>
+</Entry>
 </Entries>
 </Diary>

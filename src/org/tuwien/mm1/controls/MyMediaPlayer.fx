@@ -152,6 +152,7 @@ public class MyMediaPlayer extends ControllerListener,CustomNode{
                 dauer = proc.getDuration().getSeconds();
                 //proc.prefetch();
             }
+            //System.out.println("controller update fired: {e}");
 
     }
 

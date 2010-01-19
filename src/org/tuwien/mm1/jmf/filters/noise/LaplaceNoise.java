@@ -14,19 +14,37 @@ public class LaplaceNoise implements Noise{
     private float sigma;
     private float maxSigma;
 
+    /**
+     *
+     * @return
+     */
     public float getSigma() {
         return sigma;
     }
 
+    /**
+     *
+     * @param sigma
+     */
     public void setSigma(float sigma) {
         this.sigma = sigma;
     }
 
+    /**
+     *
+     * @param sigma
+     */
     public LaplaceNoise(float sigma){
         this.maxSigma = sigma;
     }
 
     /*@Override*/
+    /**
+     *
+     * @param mu
+     * @return
+     */
+    @SuppressWarnings("empty-statement")
     public float doRender(float mu) {
         double u, v;
         while ((u = rand.nextDouble()) == 0.0);
@@ -36,7 +54,11 @@ public class LaplaceNoise implements Noise{
     }
 
     /*@Override*/
-    public void setIntensität(int i) {
+    /**
+     *
+     * @param i
+     */
+    public void setIntensitaet(int i) {
         sigma = i/100.0f * maxSigma;
     }
 
