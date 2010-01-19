@@ -46,7 +46,7 @@ var sec:Number =bind mediaView.dauer;
 var videoHöhe:Integer = bind mediaView.videoHöhe;
 var videoBreite:Integer = bind mediaView.videoBreite;
 
-var currentMediaFile:String = "file://home/camillo/Videos/1984.apple_ad.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
+var currentMediaFile:String = "file://Users/awiesi/test_video.mov";//home/camillo/Videos/1984.apple_ad.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
 /**
     Label, welches den Pfad der gerade vorgeführten Datei anzeigt
 */
@@ -215,21 +215,21 @@ var timeSlider:Slider = Slider{
     layoutInfo: LayoutInfo{width: 350}
     clickToPosition:true;
     max: bind mediaView.dauer;
-    //value: bind mediaView.proc.getMediaTime().getSeconds()/(mediaView.dauer/100);
+    //value: bind mediaView.proc.getMediaTime().getSeconds();
     
 }
 
+
+
 var onSliderChange = bind timeSlider.value on replace old{
+    var diff = timeSlider.value-mediaView.proc.getMediaTime().getSeconds();
     if((old+1) != onSliderChange){
+        if(Math.abs(diff)>2){
         mediaView.proc.setMediaTime(new Time(timeSlider.value));
         System.out.println("timeSlider: setMediaTime to {(timeSlider.value)}");
+        }
     }
 }
-/*
-var letsMoveTheSliderAlong = bind mediaView.proc.getMediaTime() on replace {
-    timeSlider.adjustValue(mediaView.proc.getMediaTime().getSeconds()/(mediaView.dauer/100));
-}
-*/
 
 
 /**
@@ -247,13 +247,22 @@ var timeLabel:Label =Label {
 var timer = new java.util.Timer();
 var timerTask = java.util.TimerTask{
     public override function run() {
-        System.out.println("TimerTask");
-        timeSlider.value +=1; // mediaView.proc.getMediaTime().getSeconds();
-        if (timeSlider.value > beginnSlider.value and timeSlider.value < (beginnSlider.value + dauerSlider.value)){
+      var cursec = mediaView.proc.getMediaTime().getSeconds();
+       System.out.println("TimerTask: {cursec}");
+       if(cursec > beginnSlider.value and cursec < (beginnSlider.value + dauerSlider.value)){
+           mediaView.Filter.setEnabled(true);
+       }else{
+           mediaView.Filter.setEnabled(false);
+       }
+      /*
+      timeSlider.adjustValue(mediaView.proc.getMediaTime().getSeconds());
+      if (timeSlider.value > beginnSlider.value and timeSlider.value < (beginnSlider.value + dauerSlider.value)){
             mediaView.Filter.setEnabled(true);
         }else{
             mediaView.Filter.setEnabled(false);
         }
+         System.out.println("TimerTask {timeSlider.value} : {mediaView.proc.getMediaTime().getSeconds()}");
+      */
     }
 };
 
@@ -267,9 +276,9 @@ var playButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Play has been clicked");
-        //mediaView.mediaPlayer.play();
         mediaView.proc.start();
-        //timer.scheduleAtFixedRate(timerTask,0,1000); //prog hängt sich auf, hmm
+        timer.schedule(timerTask,1000,1000); //prog hängt sich auf, hmm
+        //timer.(1000, timerTask).start();
     }
 }
 /**
@@ -282,7 +291,6 @@ var pauseButton:Button = Button{
     }
     onMouseClicked: function( e: MouseEvent ):Void {
         System.out.println("Pause has been clicked");
-        //mediaView.mediaPlayer.pause();
         mediaView.proc.stop();
     }
 }
@@ -299,8 +307,8 @@ var stopButton:Button = Button{
         mediaView.proc.stop();
         mediaView.proc.setMediaTime(new Time(0.0));
         timeSlider.adjustValue(0);
+        //timer.stop(); oder pause() gibts nicht, cancel erlaubt keine wiederaufnahme..
         
-        //mediaView.mediaPlayer.stop();
     }
 }
 
