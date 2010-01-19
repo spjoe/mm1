@@ -569,30 +569,30 @@ function run(args : String[]) {
             System.out.println(radio.text);
             if(radio.text.equals("Gauß")){
                 var n:Noise = new GaussNoise(50);
-                n.setIntensität(intensitätSlider.value);
+                n.setIntensitaet(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Lorentz")){
                 var n:Noise = new LorentzNoise(50);
-                n.setIntensität(intensitätSlider.value);
+                n.setIntensitaet(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Laplace")){
                 var n:Noise = new LaplaceNoise(50);
-                n.setIntensität(intensitätSlider.value);
+                n.setIntensitaet(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Uniform")){
                 var n:Noise = new UniformNoise(50);
-                n.setIntensität(intensitätSlider.value);
+                n.setIntensitaet(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }else if(radio.text.equals("Poisson")){
                 var n:Noise = new PoissonNoise(1);
-                n.setIntensität(intensitätSlider.value);
+                n.setIntensitaet(intensitätSlider.value);
                 mediaView.Filter.setNoiseRender(n);
             }
         }
     }
     var lol3 = bind intensitätSlider.value on replace old {
         if(mediaView.Filter != null){
-            mediaView.Filter.getNoiseRender().setIntensität(lol3);
+            mediaView.Filter.getNoiseRender().setIntensitaet(lol3);
         }
     }
     var lol4 = bind breiteSlider.value on replace old {
@@ -602,7 +602,7 @@ function run(args : String[]) {
     }
     var lol5 = bind höheSlider.value on replace old {
         if(mediaView.Filter != null){
-            mediaView.Filter.setFilterHöhe(lol5);
+            mediaView.Filter.setFilterHoehe(lol5);
         }
     }
     var lol6 = bind offsetXSlider.value on replace old {
