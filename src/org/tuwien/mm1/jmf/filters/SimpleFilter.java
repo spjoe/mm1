@@ -29,6 +29,12 @@ public class SimpleFilter implements Effect
 
         protected Noise noiseRender;
 
+        private boolean enabled = true;
+
+        public void setEnabled(boolean enabled) {
+            this.enabled = enabled;
+        }
+
         private int offsetX = 0;
         private int offsetY = 0;
         private int filterBreite = 0;
@@ -85,6 +91,12 @@ public class SimpleFilter implements Effect
 
 	public int process(Buffer input, Buffer output)
 	{
+            if(enabled == false){
+               output.copy(input);
+               byte[] data = (byte[])input.getData();
+               output.setData(data);
+               return BUFFER_PROCESSED_OK;
+            }
 		// Swap tra input & output
 		output.copy(input);
                 byte[] data = (byte[])input.getData();

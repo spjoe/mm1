@@ -46,7 +46,7 @@ var sec:Number =bind mediaView.dauer;
 var videoHöhe:Integer = bind mediaView.videoHöhe;
 var videoBreite:Integer = bind mediaView.videoBreite;
 
-var currentMediaFile:String = "file://Users/awiesi/Downloads/1984.apple_ad.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
+var currentMediaFile:String = "file://home/camillo/Videos/1984.apple_ad.mov";//"http://sun.edgeboss.net/download/sun/media/1460825906/1460825906_11810873001_09c01923-00.flv";
 /**
     Label, welches den Pfad der gerade vorgeführten Datei anzeigt
 */
@@ -64,13 +64,13 @@ var beginnLabel:Label = Label{
     Der Schieber für die Beginnzeit des Filters
 */
 var beginnSlider:Slider = Slider{
-
+    max: bind mediaView.dauer;
 }
 /**
     Der Wert des Schieber für die Beginnzeit des Filters
 */
 var beginnSliderLabel:Label = Label {
-    var currentsec:Integer  = bind sec * beginnSlider.value/100;
+    var currentsec:Integer  = bind beginnSlider.value;
     var hour:Integer = bind  currentsec/3600;
     var min:Integer  = bind (currentsec-hour*3600)/60;
     var sec2:Integer = bind (currentsec-hour*3600-min*60);
@@ -88,12 +88,13 @@ var dauerLabel:Label = Label{
     Der Schieber für die Dauer des Filters
 */
 var dauerSlider:Slider = Slider{
+    max: bind mediaView.dauer;
 }
 /**
     Der Wert des Schieber für die Dauer des Filters
 */
 var dauerSliderLabel:Label = Label {
-    var currentsec:Integer  = bind sec * dauerSlider.value/100;
+    var currentsec:Integer  = bind dauerSlider.value;
     var hour:Integer = bind  currentsec/3600;
     var min:Integer  = bind (currentsec-hour*3600)/60;
     var sec2:Integer = bind (currentsec-hour*3600-min*60);
@@ -218,9 +219,11 @@ var timeSlider:Slider = Slider{
     
 }
 
-var onSliderChange = bind timeSlider.value on replace {
-    mediaView.proc.setMediaTime(new Time(sec*timeSlider.value/100));
-    System.out.println("timeSlider: setMediaTime to {(sec*timeSlider.value/100)}");
+var onSliderChange = bind timeSlider.value on replace old{
+    if((old+1) != onSliderChange){
+        mediaView.proc.setMediaTime(new Time(timeSlider.value));
+        System.out.println("timeSlider: setMediaTime to {(timeSlider.value)}");
+    }
 }
 /*
 var letsMoveTheSliderAlong = bind mediaView.proc.getMediaTime() on replace {
@@ -233,13 +236,26 @@ var letsMoveTheSliderAlong = bind mediaView.proc.getMediaTime() on replace {
     Der Wert des Schieber für die vergangene Zeit
 */
 var timeLabel:Label =Label {
-    var currentsec:Integer  = bind sec * timeSlider.value/100;
+    var currentsec:Integer  = bind timeSlider.value;
     var hour:Integer = bind  currentsec/3600;
     var min:Integer  = bind (currentsec-hour*3600)/60;
     var sec2:Integer = bind (currentsec-hour*3600-min*60);
     var shour:String = bind "{hour}:{min}:{sec2}";
     text:bind shour
 }
+
+var timer = new java.util.Timer();
+var timerTask = java.util.TimerTask{
+    public override function run() {
+        System.out.println("TimerTask");
+        timeSlider.value +=1; // mediaView.proc.getMediaTime().getSeconds();
+        if (timeSlider.value > beginnSlider.value and timeSlider.value < (beginnSlider.value + dauerSlider.value)){
+            mediaView.Filter.setEnabled(true);
+        }else{
+            mediaView.Filter.setEnabled(false);
+        }
+    }
+};
 
 /**
     Knopf zum starten des Filmes
@@ -253,6 +269,7 @@ var playButton:Button = Button{
         System.out.println("Play has been clicked");
         //mediaView.mediaPlayer.play();
         mediaView.proc.start();
+        //timer.scheduleAtFixedRate(timerTask,0,1000); //prog hängt sich auf, hmm
     }
 }
 /**
@@ -293,7 +310,7 @@ var stopButton:Button = Button{
 
 var mediaView:MyMediaPlayer =  MyMediaPlayer{
     url: new java.net.URL(currentMediaFile)
-    autoPlay: true;
+    autoPlay: false;
 }
 
 /**
